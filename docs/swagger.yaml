@@ -1,0 +1,64 @@
+basePath: /
+definitions:
+  model.User:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  user.ResponseGetUsers:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+    type: object
+  user.ResponseHello:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Dokumentasi API D4 TRPL 19 TA 13.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: API TA
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/user.ResponseHello'
+      summary: Get hi
+      tags:
+      - hai
+  /users:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/user.ResponseGetUsers'
+      summary: Get all users
+      tags:
+      - User
+swagger: "2.0"
