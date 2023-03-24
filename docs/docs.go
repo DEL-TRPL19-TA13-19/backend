@@ -46,6 +46,28 @@ const docTemplate = `{
                 }
             }
         },
+        "/collections": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Collections"
+                ],
+                "summary": "Get all collections",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/collections.ResponseGetCollections"
+                        }
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "consumes": [
@@ -70,7 +92,29 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.User": {
+        "collections.ResponseGetCollections": {
+            "type": "object",
+            "properties": {
+                "collections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Collection"
+                    }
+                }
+            }
+        },
+        "entity.Collection": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.User": {
             "type": "object",
             "properties": {
                 "id": {
@@ -87,7 +131,7 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.User"
+                        "$ref": "#/definitions/entity.User"
                     }
                 }
             }

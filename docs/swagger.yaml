@@ -1,6 +1,20 @@
 basePath: /
 definitions:
-  model.User:
+  collections.ResponseGetCollections:
+    properties:
+      collections:
+        items:
+          $ref: '#/definitions/entity.Collection'
+        type: array
+    type: object
+  entity.Collection:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  entity.User:
     properties:
       id:
         type: string
@@ -11,7 +25,7 @@ definitions:
     properties:
       users:
         items:
-          $ref: '#/definitions/model.User'
+          $ref: '#/definitions/entity.User'
         type: array
     type: object
   user.ResponseHello:
@@ -47,6 +61,20 @@ paths:
       summary: Get hi
       tags:
       - hai
+  /collections:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/collections.ResponseGetCollections'
+      summary: Get all collections
+      tags:
+      - Collections
   /users:
     get:
       consumes:

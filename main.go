@@ -4,10 +4,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/spf13/viper"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"ta13-svc/controller/user"
+	"ta13-svc/data/mysql"
 	_ "ta13-svc/docs"
-	"ta13-svc/storage"
+	"ta13-svc/usecase/collections"
+	"ta13-svc/usecase/user"
 )
 
 // @title API TA
@@ -22,13 +24,20 @@ import (
 // @host localhost:9000
 // @BasePath /
 func main() {
-	port := ":9000"
 
-	storage.NewDB()
+	viper.SetConfigFile(".env")
+	viper.ReadInConfig()
+
+	port := ":" + viper.GetString("ServerPort")
+
+	mysql.NewDB()
 
 	e := echo.New()
 
-	e.Use(middleware.Logger())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: `[${time_rfc3339} ${status} ${method} ${host}${path} ${latency_human}]` + "\n",
+	}))
+
 	e.Use(middleware.Recover())
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -39,6 +48,7 @@ func main() {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 	e.GET("/", user.GetHello)
 	e.GET("/users", user.GetUsers)
+	e.GET("/collections", collections.GetCollections)
 
 	e.Logger.Fatal(e.Start(port))
 }

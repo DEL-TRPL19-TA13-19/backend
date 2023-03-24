@@ -3,13 +3,14 @@ package user
 import (
 	"github.com/labstack/echo/v4"
 	"net/http"
-	"ta13-svc/model"
-	"ta13-svc/storage"
+	"ta13-svc/data/mysql"
+	"ta13-svc/dto/user"
+	"ta13-svc/entity"
 )
 
-func GetRepoStudents() ([]model.User, error) {
-	db := storage.GetDBInstance()
-	var users []model.User
+func GetRepoStudents() ([]entity.User, error) {
+	db := mysql.GetDBInstance()
+	var users []entity.User
 
 	if err := db.Find(&users).Error; err != nil {
 		return nil, err
@@ -27,7 +28,7 @@ func GetRepoStudents() ([]model.User, error) {
 // @tags User
 func GetUsers(c echo.Context) error {
 	users, _ := GetRepoStudents()
-	return c.JSON(http.StatusOK, ResponseGetUsers{Users: users})
+	return c.JSON(http.StatusOK, user.ResponseGetUsers{Users: users})
 }
 
 // GetHello godoc
@@ -38,5 +39,5 @@ func GetUsers(c echo.Context) error {
 // @Router / [get]
 // @tags hai
 func GetHello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hai")
+	return c.JSON(http.StatusOK, user.ResponseHello{Message: "asd"})
 }

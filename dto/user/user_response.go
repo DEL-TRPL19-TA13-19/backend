@@ -1,9 +1,9 @@
 package user
 
-import "ta13-svc/model"
+import "ta13-svc/entity"
 
 type ResponseGetUsers struct {
-	Users []model.User `json:"users"`
+	Users []entity.User `json:"users"`
 }
 
 type ResponseHello struct {
