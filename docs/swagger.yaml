@@ -1,37 +1,132 @@
 basePath: /
 definitions:
-  collections.ResponseGetCollections:
+  abstraction.PaginationInfo:
     properties:
-      collections:
-        items:
-          $ref: '#/definitions/entity.Collection'
-        type: array
+      count:
+        type: integer
+      more_records:
+        type: boolean
+      page:
+        type: integer
+      page_size:
+        type: integer
+      sort:
+        type: string
+      sort_by:
+        type: string
     type: object
-  entity.Collection:
+  dto.AuthLoginRequest:
     properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  dto.AuthLoginResponse:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
       id:
-        type: string
-      name:
-        type: string
-    type: object
-  entity.User:
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-    type: object
-  user.ResponseGetUsers:
-    properties:
-      users:
-        items:
-          $ref: '#/definitions/entity.User'
-        type: array
-    type: object
-  user.ResponseHello:
-    properties:
+        type: integer
       message:
         type: string
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.AuthLoginResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.AuthLoginResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.AuthRegisterRequest:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
+      id:
+        type: integer
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.AuthRegisterResponse:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      email:
+        type: string
+      fullName:
+        type: string
+      id:
+        type: integer
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.AuthRegisterResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.AuthRegisterResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  response.Meta:
+    properties:
+      info:
+        $ref: '#/definitions/abstraction.PaginationInfo'
+      message:
+        default: "true"
+        type: string
+      success:
+        default: true
+        type: boolean
+    type: object
+  response.errorResponse:
+    properties:
+      error:
+        type: string
+      meta:
+        $ref: '#/definitions/response.Meta'
     type: object
 host: localhost:9000
 info:
@@ -47,46 +142,74 @@ info:
   title: API TA
   version: "1.0"
 paths:
-  /:
-    get:
+  /auth/login:
+    post:
       consumes:
       - application/json
+      description: Login auth
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthLoginRequest'
       produces:
       - application/json
       responses:
         "200":
-          description: Success
+          description: OK
           schema:
-            $ref: '#/definitions/user.ResponseHello'
-      summary: Get hi
+            $ref: '#/definitions/dto.AuthLoginResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Login auth
       tags:
-      - hai
-  /collections:
-    get:
+      - auth
+  /auth/register:
+    post:
       consumes:
       - application/json
+      description: Register auth
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthRegisterRequest'
       produces:
       - application/json
       responses:
         "200":
-          description: Success
+          description: OK
           schema:
-            $ref: '#/definitions/collections.ResponseGetCollections'
-      summary: Get all collections
-      tags:
-      - Collections
-  /users:
-    get:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success
+            $ref: '#/definitions/dto.AuthRegisterResponseDoc'
+        "400":
+          description: Bad Request
           schema:
-            $ref: '#/definitions/user.ResponseGetUsers'
-      summary: Get all users
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      security:
+      - BearerAuth: []
+      summary: Register auth
       tags:
-      - User
+      - auth
 swagger: "2.0"

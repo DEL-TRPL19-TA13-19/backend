@@ -7,12 +7,12 @@ services:
     container_name: ta13_mysql
     volumes:
       - ./init:/docker-entrypoint-initdb.d/a.sql
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/aa
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: ta13db
-      MYSQL_USER: user
+      MYSQL_USER: auth
       MYSQL_PASSWORD: password
 
 volumes:

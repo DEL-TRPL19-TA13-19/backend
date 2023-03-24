@@ -24,8 +24,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/": {
-            "get": {
+        "/auth/login": {
+            "post": {
+                "description": "Login auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -33,21 +34,56 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "hai"
+                    "auth"
                 ],
-                "summary": "Get hi",
+                "summary": "Login auth",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthLoginRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ResponseHello"
+                            "$ref": "#/definitions/dto.AuthLoginResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
                         }
                     }
                 }
             }
         },
-        "/collections": {
-            "get": {
+        "/auth/register": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Register auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -55,36 +91,43 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Collections"
+                    "auth"
                 ],
-                "summary": "Get all collections",
-                "responses": {
-                    "200": {
-                        "description": "Success",
+                "summary": "Register auth",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "$ref": "#/definitions/collections.ResponseGetCollections"
+                            "$ref": "#/definitions/dto.AuthRegisterRequest"
                         }
                     }
-                }
-            }
-        },
-        "/users": {
-            "get": {
-                "consumes": [
-                    "application/json"
                 ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get all users",
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ResponseGetUsers"
+                            "$ref": "#/definitions/dto.AuthRegisterResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
                         }
                     }
                 }
@@ -92,55 +135,199 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "collections.ResponseGetCollections": {
+        "abstraction.PaginationInfo": {
             "type": "object",
             "properties": {
-                "collections": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.Collection"
-                    }
-                }
-            }
-        },
-        "entity.Collection": {
-            "type": "object",
-            "properties": {
-                "id": {
+                "count": {
+                    "type": "integer"
+                },
+                "more_records": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sort": {
                     "type": "string"
                 },
-                "name": {
+                "sort_by": {
                     "type": "string"
                 }
             }
         },
-        "entity.User": {
+        "dto.AuthLoginRequest": {
             "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
             "properties": {
-                "id": {
+                "password": {
                     "type": "string"
                 },
-                "name": {
+                "username": {
                     "type": "string"
                 }
             }
         },
-        "user.ResponseGetUsers": {
+        "dto.AuthLoginResponse": {
             "type": "object",
             "properties": {
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.User"
-                    }
-                }
-            }
-        },
-        "user.ResponseHello": {
-            "type": "object",
-            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
                 "message": {
                     "type": "string"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.AuthLoginResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AuthLoginResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "dto.AuthRegisterRequest": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.AuthRegisterResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fullName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.AuthRegisterResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AuthRegisterResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "response.Meta": {
+            "type": "object",
+            "properties": {
+                "info": {
+                    "$ref": "#/definitions/abstraction.PaginationInfo"
+                },
+                "message": {
+                    "type": "string",
+                    "default": "true"
+                },
+                "success": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+        "response.errorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/response.Meta"
                 }
             }
         }

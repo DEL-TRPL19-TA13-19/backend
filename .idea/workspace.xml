@@ -4,43 +4,72 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c05b0831-5f51-4df5-9beb-247b740427ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dto/collections/collections_request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dto/collections/collections_response.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dto/user/user_request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/collection.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/middleware.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/presentation/router/router.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/collection/collection_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/collection/collection_repository_impl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/user/user_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/repository/user/user_repository_impl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/collection/collection_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/collection/collection_service_impl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/user/user_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/user/user_service_impl.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/usecase/collections/collections.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.production" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+    <list default="true" id="34029f01-a37a-4aa0-b057-3aad166438d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/database.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migration/migration.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/type.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/abstraction/context.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/abstraction/entity.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/abstraction/pagination.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/abstraction/repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/dto/auth/auth_request.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/dto/collection/collection_response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/factory/factory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/http/http.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/middleware/context.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/middleware/error.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/auth/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/auth/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/constant/constant.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/date/date.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/elasticsearch/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/env/env.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/log/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/log/types.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/response/error.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/response/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/response/success.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/266486c6-15ef-4d3d-b9d9-01cc8b0fba4a.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/266486c6-15ef-4d3d-b9d9-01cc8b0fba4a/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ta13-svc.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ta13-svc.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/mysql/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user/dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/dto/user/user_response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/usecase/user/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/mysql/config.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/mysql/db.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/collections/collections_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/collection/collection_request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/collections/collections_response.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/user/user_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/auth/route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/user/user_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/auth/auth_response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/collection.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/entity/collection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/entity/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infrastructure/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/middleware/middleware.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migration/20230314013704_create_users_table.down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/20230314013704_create_users_table.down.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migration/20230314013704_create_users_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/20230314013704_create_users_table.up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migration/20230314013823_create_collections_table.down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/20230314013823_create_collections_table.down.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migration/20230314013823_create_collections_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/20230314013823_create_collections_table.up.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/mysql/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20230314013704_create_users_table.down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/migration/20230314013704_create_users_table.down.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20230314013704_create_users_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/migration/20230314013704_create_users_table.up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20230314013823_create_collections_table.down.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/migration/20230314013823_create_collections_table.down.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20230314013823_create_collections_table.up.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/migration/20230314013823_create_collections_table.up.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/presentation/router/router.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/collection/collection_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/collection/collection_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/collection/collection_repository_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/collection/collection_repository_impl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/user/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/user/user_repository_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user/user_repository_impl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/collection/collection_service.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/collection/collection_service_impl.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/user/user_service.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/user/user_service_impl.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/usecase/collections/collections.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/usecase/user/user.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,90 +90,43 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2LWqQCHvzxJ5cBG3lOnfcQoLU1X" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2NRKMWq7zAg3jfiDiLq6rgkXSwA" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/nathan/Desktop/Project/golang-clean-architecture&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
-    ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect&quot;: [
-      &quot;MySQL&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/home/nathan/Desktop/TA/code/ta13-svc/pkg",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/pkg/log" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/repository/collection" />
-      <recent name="$PROJECT_DIR$/repository/user" />
-      <recent name="$PROJECT_DIR$/entity" />
-      <recent name="$PROJECT_DIR$/data/mysql" />
-      <recent name="$PROJECT_DIR$/data" />
+      <recent name="$PROJECT_DIR$/pkg" />
+      <recent name="$PROJECT_DIR$/database" />
+      <recent name="$PROJECT_DIR$/internal" />
+      <recent name="$PROJECT_DIR$/pkg/constant" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="go build ta13-svc" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="ta13-svc" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="ta13-svc" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
-      <deployment type="docker-compose.yml">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Go Build.go build ta13-svc" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <ignored-roots>
-      <path value="$PROJECT_DIR$" />
-    </ignored-roots>
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
