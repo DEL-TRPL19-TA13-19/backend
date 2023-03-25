@@ -1,25 +1,17 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Dokumentasi API D4 TRPL 19 TA 13.",
+        "description": "Dokumentasi API D4 TRPL 2019 TA13.",
         "title": "API TA",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:9000",
+    "host": "localhost:6900",
     "basePath": "/",
     "paths": {
-        "/": {
-            "get": {
+        "/auth/login": {
+            "post": {
+                "description": "Login auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,21 +19,51 @@
                     "application/json"
                 ],
                 "tags": [
-                    "hai"
+                    "auth"
                 ],
-                "summary": "Get hi",
+                "summary": "Login auth",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthLoginRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ResponseHello"
+                            "$ref": "#/definitions/dto.AuthLoginResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
                         }
                     }
                 }
             }
         },
-        "/collections": {
-            "get": {
+        "/auth/register": {
+            "post": {
+                "description": "Register auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -49,36 +71,43 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Collections"
+                    "auth"
                 ],
-                "summary": "Get all collections",
-                "responses": {
-                    "200": {
-                        "description": "Success",
+                "summary": "Register auth",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "$ref": "#/definitions/collections.ResponseGetCollections"
+                            "$ref": "#/definitions/dto.AuthRegisterRequest"
                         }
                     }
-                }
-            }
-        },
-        "/users": {
-            "get": {
-                "consumes": [
-                    "application/json"
                 ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get all users",
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ResponseGetUsers"
+                            "$ref": "#/definitions/dto.AuthRegisterResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
                         }
                     }
                 }
@@ -86,55 +115,225 @@
         }
     },
     "definitions": {
-        "collections.ResponseGetCollections": {
+        "abstraction.PaginationInfo": {
             "type": "object",
             "properties": {
-                "collections": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.Collection"
-                    }
+                "count": {
+                    "type": "integer"
+                },
+                "more_records": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "string"
+                },
+                "sort_by": {
+                    "type": "string"
                 }
             }
         },
-        "entity.Collection": {
+        "dto.AuthLoginRequest": {
             "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
             "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthLoginResponse": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
+                },
                 "id": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "entity.User": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
+                "is_active": {
+                    "type": "boolean"
                 },
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
-        "user.ResponseGetUsers": {
-            "type": "object",
-            "properties": {
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.User"
-                    }
-                }
-            }
-        },
-        "user.ResponseHello": {
-            "type": "object",
-            "properties": {
                 "message": {
                     "type": "string"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthLoginResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AuthLoginResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "dto.AuthRegisterRequest": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthRegisterResponse": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthRegisterResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AuthRegisterResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "response.Meta": {
+            "type": "object",
+            "properties": {
+                "info": {
+                    "$ref": "#/definitions/abstraction.PaginationInfo"
+                },
+                "message": {
+                    "type": "string",
+                    "default": "true"
+                },
+                "success": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+        "response.errorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/response.Meta"
                 }
             }
         }
