@@ -7,7 +7,7 @@ import (
 	dto "ta13-svc/internal/dto/auth"
 	"ta13-svc/internal/entity"
 	"ta13-svc/internal/factory"
-	repository "ta13-svc/internal/repository/user"
+	"ta13-svc/internal/repository"
 	"ta13-svc/pkg/response"
 	"ta13-svc/pkg/trxmanager"
 )
@@ -15,6 +15,7 @@ import (
 type Service interface {
 	Login(ctx *abstraction.Context, payload *dto.AuthLoginRequest) (*dto.AuthLoginResponse, error)
 	Register(ctx *abstraction.Context, payload *dto.AuthRegisterRequest) (*dto.AuthRegisterResponse, error)
+	FindAll(ctx *abstraction.Context) ([]*dto.GetUsersResponse, error)
 }
 
 type service struct {

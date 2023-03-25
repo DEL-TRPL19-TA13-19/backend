@@ -23,20 +23,14 @@ func init() {
 
 // @title API TA
 // @version 1.0
-// @description Dokumentasi API D4 TRPL 19 TA 13.
-// @termsOfService http://swagger.io/terms/
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:9000
+// @description Dokumentasi API D4 TRPL 2019 TA13.
+// @host localhost:6900
 // @BasePath /
 func main() {
 	db.Init()
 	migration.Init()
 	elasticsearch.Init()
-	var PORT = os.Getenv("PORT")
+	PORT := os.Getenv("PORT")
 
 	e := echo.New()
 	middleware.Init(e)

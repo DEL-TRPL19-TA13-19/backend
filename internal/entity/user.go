@@ -9,12 +9,12 @@ import (
 )
 
 type UserEntity struct {
-	FullName     string
-	Username     string `json:"username"`
-	Email        string
-	Password     string `gorm:"-"`
+	Name         string `json:"name" validate:"required" example:"nathan fernando"`
+	Username     string `json:"username" validate:"required" gorm:"unique" example:"nathan"`
+	Email        string `json:"email" gorm:"unique" example:"nathan.nandoo@gmail.com"`
+	Password     string `json:"password" validate:"required" gorm:"-" example:"pass1234"`
 	PasswordHash string `json:"-"`
-	isActive     bool
+	IsActive     bool   `json:"is_active" validate:"required"`
 }
 type UserEntityModel struct {
 	abstraction.Entity
@@ -22,11 +22,11 @@ type UserEntityModel struct {
 	Context *abstraction.Context `json:"-" gorm:"-"`
 }
 
-func (m UserEntityModel) TableName() string {
+func (UserEntityModel) TableName() string {
 	return "users"
 }
 
-func (m UserEntityModel) hashPassword() {
+func (m *UserEntityModel) hashPassword() {
 	bytes, _ := bcrypt.GenerateFromPassword([]byte(m.Password), bcrypt.DefaultCost)
 	m.PasswordHash = string(bytes)
 }

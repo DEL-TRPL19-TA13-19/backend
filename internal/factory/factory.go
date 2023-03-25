@@ -1,10 +1,9 @@
 package factory
 
 import (
-	"ta13-svc/database"
-	repository "ta13-svc/internal/repository/user"
-
 	"gorm.io/gorm"
+	"ta13-svc/database"
+	"ta13-svc/internal/repository"
 )
 
 type Factory struct {
@@ -21,7 +20,7 @@ func NewFactory() *Factory {
 }
 
 func (f *Factory) SetupDb() {
-	db, err := database.Connection("SAMPLE1")
+	db, err := database.Connection("TA13DB")
 	if err != nil {
 		panic("Failed setup db, connection is undefined")
 	}

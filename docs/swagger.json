@@ -1,21 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Dokumentasi API D4 TRPL 19 TA 13.",
+        "description": "Dokumentasi API D4 TRPL 2019 TA13.",
         "title": "API TA",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:9000",
+    "host": "localhost:6900",
     "basePath": "/",
     "paths": {
         "/auth/login": {
@@ -72,11 +63,6 @@
         },
         "/auth/register": {
             "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "Register auth",
                 "consumes": [
                     "application/json"
@@ -160,15 +146,23 @@
             ],
             "properties": {
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
         "dto.AuthLoginResponse": {
             "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -177,13 +171,14 @@
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
-                },
-                "fullName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "message": {
                     "type": "string"
@@ -194,11 +189,17 @@
                 "modified_by": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
@@ -220,38 +221,42 @@
         },
         "dto.AuthRegisterRequest": {
             "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
                 },
-                "fullName": {
-                    "type": "string"
+                "is_active": {
+                    "type": "boolean"
                 },
-                "id": {
-                    "type": "integer"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
-                    "type": "string"
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
         "dto.AuthRegisterResponse": {
             "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -260,13 +265,14 @@
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
-                },
-                "fullName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -274,11 +280,17 @@
                 "modified_by": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },

@@ -59,7 +59,6 @@ func (h *handler) Login(c echo.Context) error {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Security BearerAuth
 // @Param request body dto.AuthRegisterRequest true "request body"
 // @Success 200 {object} dto.AuthRegisterResponseDoc
 // @Failure 400 {object} response.errorResponse
@@ -70,6 +69,7 @@ func (h *handler) Register(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 
 	payload := new(dto.AuthRegisterRequest)
+
 	if err = c.Bind(payload); err != nil {
 		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
 	}

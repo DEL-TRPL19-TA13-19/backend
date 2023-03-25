@@ -9,16 +9,7 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -78,11 +69,6 @@ const docTemplate = `{
         },
         "/auth/register": {
             "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
                 "description": "Register auth",
                 "consumes": [
                     "application/json"
@@ -166,15 +152,23 @@ const docTemplate = `{
             ],
             "properties": {
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
         "dto.AuthLoginResponse": {
             "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -183,13 +177,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
-                },
-                "fullName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "message": {
                     "type": "string"
@@ -200,11 +195,17 @@ const docTemplate = `{
                 "modified_by": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
@@ -226,38 +227,42 @@ const docTemplate = `{
         },
         "dto.AuthRegisterRequest": {
             "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
                 },
-                "fullName": {
-                    "type": "string"
+                "is_active": {
+                    "type": "boolean"
                 },
-                "id": {
-                    "type": "integer"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
-                    "type": "string"
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
         "dto.AuthRegisterResponse": {
             "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
             "properties": {
                 "created_at": {
                     "type": "string"
@@ -266,13 +271,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
-                },
-                "fullName": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -280,11 +286,17 @@ const docTemplate = `{
                 "modified_by": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "pass1234"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nathan"
                 }
             }
         },
@@ -337,11 +349,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:9000",
+	Host:             "localhost:6900",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "API TA",
-	Description:      "Dokumentasi API D4 TRPL 19 TA 13.",
+	Description:      "Dokumentasi API D4 TRPL 2019 TA13.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

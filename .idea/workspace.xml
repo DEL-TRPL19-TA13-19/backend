@@ -4,7 +4,30 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34029f01-a37a-4aa0-b057-3aad166438d7" name="Changes" comment="" />
+    <list default="true" id="34029f01-a37a-4aa0-b057-3aad166438d7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ta13-svc.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ta13-svc.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/abstraction/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/abstraction/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dto/auth/auth_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/auth/auth_request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/entity/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/entity/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/factory/factory.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/factory/factory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/middleware/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/middleware/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/collection/collection_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/collection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/collection/collection_repository_impl.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user/user_repository_impl.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/auth/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/auth/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/auth/route.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/auth/route.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/auth/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/auth/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,7 +63,7 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/home/nathan/Desktop/TA/code/ta13-svc/pkg",
+    "last_opened_file_path": "/home/nathan/Desktop/Project/crud-api-go-echo",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)"
   }
@@ -52,15 +75,41 @@
       <recent name="$PROJECT_DIR$/pkg/log" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/internal/repository" />
       <recent name="$PROJECT_DIR$/pkg" />
       <recent name="$PROJECT_DIR$/database" />
       <recent name="$PROJECT_DIR$/internal" />
       <recent name="$PROJECT_DIR$/pkg/constant" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="go build ta13-svc" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="ta13-svc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <envs>
+        <env name="ENV" value="DEV" />
+      </envs>
+      <kind value="PACKAGE" />
+      <package value="ta13-svc" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
