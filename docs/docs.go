@@ -9,23 +9,15 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
+        "contact": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/": {
-            "get": {
+        "/auth/login": {
+            "post": {
+                "description": "Login auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -33,21 +25,51 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "hai"
+                    "auth"
                 ],
-                "summary": "Get hi",
+                "summary": "Login auth",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthLoginRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ResponseHello"
+                            "$ref": "#/definitions/dto.AuthLoginResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
                         }
                     }
                 }
             }
         },
-        "/users": {
-            "get": {
+        "/auth/register": {
+            "post": {
+                "description": "Register auth",
                 "consumes": [
                     "application/json"
                 ],
@@ -55,14 +77,43 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "auth"
                 ],
-                "summary": "Get all users",
+                "summary": "Register auth",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthRegisterRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.ResponseGetUsers"
+                            "$ref": "#/definitions/dto.AuthRegisterResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
                         }
                     }
                 }
@@ -70,33 +121,225 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.User": {
+        "abstraction.PaginationInfo": {
             "type": "object",
             "properties": {
-                "id": {
+                "count": {
+                    "type": "integer"
+                },
+                "more_records": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "sort": {
                     "type": "string"
                 },
-                "name": {
+                "sort_by": {
                     "type": "string"
                 }
             }
         },
-        "user.ResponseGetUsers": {
+        "dto.AuthLoginRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthLoginResponse": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthLoginResponseDoc": {
             "type": "object",
             "properties": {
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.User"
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AuthLoginResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
                     }
                 }
             }
         },
-        "user.ResponseHello": {
+        "dto.AuthRegisterRequest": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthRegisterResponse": {
+            "type": "object",
+            "required": [
+                "is_active",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "nathan.nandoo@gmail.com"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "nathan fernando"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "pass1234"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "nathan"
+                }
+            }
+        },
+        "dto.AuthRegisterResponseDoc": {
             "type": "object",
             "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AuthRegisterResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "response.Meta": {
+            "type": "object",
+            "properties": {
+                "info": {
+                    "$ref": "#/definitions/abstraction.PaginationInfo"
+                },
                 "message": {
+                    "type": "string",
+                    "default": "true"
+                },
+                "success": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+        "response.errorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
                     "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/response.Meta"
                 }
             }
         }
@@ -106,11 +349,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:9000",
+	Host:             "localhost:6900",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "API TA",
-	Description:      "Dokumentasi API D4 TRPL 19 TA 13.",
+	Description:      "Dokumentasi API D4 TRPL 2019 TA13.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
