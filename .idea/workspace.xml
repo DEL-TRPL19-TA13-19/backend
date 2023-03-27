@@ -5,8 +5,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34029f01-a37a-4aa0-b057-3aad166438d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/dto/alternative/request.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/dto/alternative/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/dto/tps/request.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/dto/tps/response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/entity/alternative.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/entity/tps.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/repository/alternative.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/repository/tps.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/alternative/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/alternative/route.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/alternative/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/collection/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/collection/route.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/collection/service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/tps/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/tps/route.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/tps/service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migration/migration.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/migration/migration.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/abstraction/context.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/abstraction/context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/abstraction/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/abstraction/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/abstraction/pagination.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/abstraction/pagination.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/abstraction/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/abstraction/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dto/auth/auth_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/auth/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dto/auth/auth_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/auth/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dto/collection/collection_request.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/collection/request.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/dto/collection/collection_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dto/collection/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/entity/collection.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/entity/collection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/entity/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/entity/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/factory/factory.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/factory/factory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/http/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/http/http.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/middleware/context.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/middleware/context.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/collection.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/collection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/auth/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/auth/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/usecase/auth/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/auth/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/constant/constant.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/utils/constant/constant.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/date/date.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/utils/date/date.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/env/env.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/env/env.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/response/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/response/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/trxmanager/trxmanager.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/utils/trxmanager/trxmanager.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +89,9 @@
     "go.sdk.automatically.set": "true",
     "last_opened_file_path": "/home/nathan/Desktop/Project/crud-api-go-echo",
     "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)"
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.sync"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -55,11 +101,11 @@
       <recent name="$PROJECT_DIR$/pkg/log" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pkg/utils" />
       <recent name="$PROJECT_DIR$/internal/repository" />
       <recent name="$PROJECT_DIR$/pkg" />
       <recent name="$PROJECT_DIR$/database" />
       <recent name="$PROJECT_DIR$/internal" />
-      <recent name="$PROJECT_DIR$/pkg/constant" />
     </key>
   </component>
   <component name="RunManager">
@@ -93,5 +139,96 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/collection/handler.go</url>
+          <line>71</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/collection/handler.go</url>
+          <line>67</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/collection/handler.go</url>
+          <line>80</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/collection/handler.go</url>
+          <line>78</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>114</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>109</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>127</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>111</line>
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>116</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>123</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>124</line>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>106</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/usecase/tps/service.go</url>
+          <line>104</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/tps.go</url>
+          <line>70</line>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/tps.go</url>
+          <line>75</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/tps.go</url>
+          <line>81</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/tps.go</url>
+          <line>80</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

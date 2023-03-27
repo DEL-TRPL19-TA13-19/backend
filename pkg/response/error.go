@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"ta13-svc/pkg/date"
 	"ta13-svc/pkg/log"
+	"ta13-svc/pkg/utils/date"
 
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"

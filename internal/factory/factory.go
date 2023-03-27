@@ -7,13 +7,25 @@ import (
 )
 
 type Factory struct {
-	Db             *gorm.DB
-	UserRepository repository.UserRepository
+	Db                    *gorm.DB
+	UserRepository        repository.UserRepository
+	TpsRepository         repository.TpsRepository
+	CollectionRepository  repository.CollectionRepository
+	AlternativeRepository repository.AlternativeRepository
 }
 
 func NewFactory() *Factory {
 	f := &Factory{}
 	f.SetupDb()
+	f.SetupRepository()
+
+	return f
+}
+
+func NewFactoryV2(db *gorm.DB) *Factory {
+	f := &Factory{
+		Db: db,
+	}
 	f.SetupRepository()
 
 	return f
@@ -33,4 +45,7 @@ func (f *Factory) SetupRepository() {
 	}
 
 	f.UserRepository = repository.NewUser(f.Db)
+	f.TpsRepository = repository.NewTps(f.Db)
+	f.CollectionRepository = repository.NewCollection(f.Db)
+	f.AlternativeRepository = repository.NewAlternative(f.Db)
 }

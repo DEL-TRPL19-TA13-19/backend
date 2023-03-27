@@ -3,12 +3,12 @@ package abstraction
 import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"ta13-svc/pkg/date"
+	"ta13-svc/pkg/utils/date"
 	"time"
 )
 
 type Entity struct {
-	ID uuid.UUID `json:"id" gorm:"primaryKey"`
+	ID string `json:"id" gorm:"primaryKey"`
 
 	CreatedAt  time.Time  `json:"created_at"`
 	CreatedBy  string     `json:"created_by"`
@@ -25,7 +25,7 @@ type Filter struct {
 
 func (e *Entity) BeforeCreate(trx *gorm.DB) (err error) {
 	e.CreatedAt = *date.DateTodayLocal()
-	e.ID = uuid.New()
+	e.ID = uuid.NewString()
 	return
 }
 
