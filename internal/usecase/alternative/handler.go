@@ -47,12 +47,12 @@ func (h *handler) GetAll(c echo.Context) error {
 // @Tags alternative
 // @Accept json
 // @Produce json
-// @Param collection_id path string true "id path"
+// @Param collection_id path string true "collection_id path"
 // @Success 200 {object} dto.AlternativeGetByCollectionIDResponseDoc
 // @Failure 400 {object} response.errorResponse
 // @Failure 404 {object} response.errorResponse
 // @Failure 500 {object} response.errorResponse
-// @Router /alternative/{collection_id} [GET]
+// @Router /alternative/collection/{collection_id} [GET]
 func (h *handler) GetByCollectionID(c echo.Context) error {
 	ctx := c.Request().Context()
 
@@ -68,6 +68,40 @@ func (h *handler) GetByCollectionID(c echo.Context) error {
 	fmt.Printf("IDCOLLECTION : %+v", payload)
 
 	result, err := h.service.FindByCollectionID(ctx, payload)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+}
+
+// GetByID
+// @Summary Get Alternatives By ID
+// @Description Get Alternatives By ID
+// @Tags alternative
+// @Accept json
+// @Produce json
+// @Param id path string true "id path"
+// @Success 200 {object} dto.AlternativeGetByIDResponseDoc
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /alternative/{id} [GET]
+func (h *handler) GetByID(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	payload := new(dto.AlternativeGetByIDRequest)
+	if err = c.Bind(payload); err != nil {
+		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
+	}
+	if err = c.Validate(payload); err != nil {
+		response := response.ErrorBuilder(&response.ErrorConstant.Validation, err)
+		return response.Send(c)
+	}
+
+	fmt.Printf("IDCOLLECTION : %+v", payload)
+
+	result, err := h.service.FindByID(ctx, payload)
 	if err != nil {
 		return response.ErrorResponse(err).Send(c)
 	}
@@ -114,13 +148,12 @@ func (h *handler) Create(c echo.Context) error {
 // @Tags alternative
 // @Accept  json
 // @Produce  json
-// @Param id path string true "id path"
 // @Param request body dto.AlternativeUpdateRequest true "request body"
 // @Success 200 {object} dto.AlternativeUpdateResponseDoc
 // @Failure 400 {object} response.errorResponse
 // @Failure 404 {object} response.errorResponse
 // @Failure 500 {object} response.errorResponse
-// @Router /alternative/{id} [patch]
+// @Router /alternative [patch]
 func (h *handler) Update(c echo.Context) error {
 	ctx := c.Request().Context()
 

@@ -46,7 +46,7 @@ type TpsUpdateResponseDoc struct {
 }
 
 type TpsDeleteResponse struct {
-	ID string `json:"id"`
+	ID *string `json:"id"`
 }
 type TpsDeleteResponseDoc struct {
 	Body struct {

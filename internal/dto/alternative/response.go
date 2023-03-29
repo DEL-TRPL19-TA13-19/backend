@@ -15,6 +15,16 @@ type AlternativesGetResponseDoc struct {
 	} `json:"body"`
 }
 
+type AlternativeGetByIDResponse struct {
+	Datas entity.AlternativeEntityModel
+}
+type AlternativeGetByIDResponseDoc struct {
+	Body struct {
+		Meta response.Meta              `json:"meta"`
+		Data AlternativeGetByIDResponse `json:"data"`
+	} `json:"body"`
+}
+
 type AlternativeGetByCollectionIDResponse struct {
 	Datas []entity.AlternativeEntityModel
 }
@@ -46,7 +56,7 @@ type AlternativeUpdateResponseDoc struct {
 }
 
 type AlternativeDeleteResponse struct {
-	entity.AlternativeEntityModel
+	ID *string `json:"id"`
 }
 type AlternativeDeleteResponseDoc struct {
 	Body struct {

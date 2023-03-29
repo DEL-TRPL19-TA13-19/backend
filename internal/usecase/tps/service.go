@@ -106,11 +106,12 @@ func (s *service) Update(ctx context.Context, payload *dto.TpsUpdateRequest) (*d
 
 		data = &entity.TpsEntityModel{
 			TpsEntity: payload.TpsEntity,
+			Entity:    abstraction.Entity{ID: payload.ID},
 		}
-		//_, err = tpsRepository.FindByID(ctx, &payload.ID)
-		//if err != nil {
-		//	return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err)
-		//}
+		_, err = tpsRepository.FindByID(ctx, &payload.ID)
+		if err != nil {
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
 
 		_, err = tpsRepository.Update(ctx, &payload.ID, data)
 		if err != nil {
@@ -134,12 +135,13 @@ func (s *service) Delete(ctx context.Context, payload *dto.TpsDeleteRequest) (*d
 
 	if err = trxmanager.New(s.Db).WithTrxV2(ctx, func(ctx context.Context, f *factory.Factory) error {
 		tpsRepository := f.TpsRepository
-		//data, err = tpsRepository.FindByID(ctx, &payload.ID)
-		//if err != nil {
-		//	return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err)
-		//}
+
 		data = &entity.TpsEntityModel{
 			TpsEntity: payload.TpsEntity,
+		}
+		_, err = tpsRepository.FindByID(ctx, &payload.ID)
+		if err != nil {
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
 		_, err = tpsRepository.Delete(ctx, &payload.ID, data)
 		if err != nil {
@@ -151,7 +153,7 @@ func (s *service) Delete(ctx context.Context, payload *dto.TpsDeleteRequest) (*d
 	}
 
 	result = &dto.TpsDeleteResponse{
-		ID: payload.ID,
+		ID: &payload.ID,
 	}
 
 	return result, nil

@@ -104,9 +104,59 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "patch": {
+                "description": "Update alternative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Update alternative",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AlternativeUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AlternativeUpdateResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
             }
         },
-        "/alternative/{collection_id}": {
+        "/alternative/collection/{collection_id}": {
             "get": {
                 "description": "Get Alternatives By Collection ID",
                 "consumes": [
@@ -122,7 +172,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "id path",
+                        "description": "collection_id path",
                         "name": "collection_id",
                         "in": "path",
                         "required": true
@@ -157,6 +207,54 @@ const docTemplate = `{
             }
         },
         "/alternative/{id}": {
+            "get": {
+                "description": "Get Alternatives By ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "alternative"
+                ],
+                "summary": "Get Alternatives By ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id path",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AlternativeGetByIDResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete alternative",
                 "consumes": [
@@ -183,63 +281,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.AlternativeDeleteResponseDoc"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Update alternative",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "alternative"
-                ],
-                "summary": "Update alternative",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "id path",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "request body",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.AlternativeUpdateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.AlternativeUpdateResponseDoc"
                         }
                     },
                     "400": {
@@ -368,6 +409,45 @@ const docTemplate = `{
             }
         },
         "/collection": {
+            "get": {
+                "description": "Get ALl Collections",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "collection"
+                ],
+                "summary": "Get All Collections",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CollectionsGetResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create collection",
                 "consumes": [
@@ -417,56 +497,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/collection/{id}": {
-            "delete": {
-                "description": "Delete collection",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "collection"
-                ],
-                "summary": "Delete collection",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "id path",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.CollectionDeleteResponseDoc"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    }
-                }
             },
             "patch": {
                 "description": "Update collection",
@@ -481,13 +511,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update collection",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "id path",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
                     {
                         "description": "request body",
                         "name": "request",
@@ -526,7 +549,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/collection/{user_id}": {
+        "/collection/user/{user_id}": {
             "get": {
                 "description": "Get Collection By UserID",
                 "consumes": [
@@ -542,7 +565,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "id path",
+                        "description": "user_id path",
                         "name": "user_id",
                         "in": "path",
                         "required": true
@@ -552,7 +575,105 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.CollectionGetByUserIDResponseDoc"
+                            "$ref": "#/definitions/dto.CollectionsGetResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/collection/{id}": {
+            "get": {
+                "description": "Get Collection By CollectionID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "collection"
+                ],
+                "summary": "Get Collection By CollectionID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id path",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CollectionGetByIDResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete collection",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "collection"
+                ],
+                "summary": "Delete collection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id path",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CollectionDeleteResponseDoc"
                         }
                     },
                     "400": {
@@ -665,6 +786,56 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "patch": {
+                "description": "Update tps",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tps"
+                ],
+                "summary": "Update tps",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.TpsUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TpsUpdateResponseDoc"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
             }
         },
         "/tps/{id}": {
@@ -742,56 +913,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.TpsDeleteResponseDoc"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Update tps",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tps"
-                ],
-                "summary": "Update tps",
-                "parameters": [
-                    {
-                        "description": "request body",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.TpsUpdateRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.TpsUpdateResponseDoc"
                         }
                     },
                     "400": {
@@ -938,46 +1059,7 @@ const docTemplate = `{
         "dto.AlternativeDeleteResponse": {
             "type": "object",
             "properties": {
-                "Aksesibilitas": {
-                    "type": "string"
-                },
-                "collection_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
-                "estetika": {
-                    "type": "string"
-                },
                 "id": {
-                    "type": "string"
-                },
-                "jarak-tps": {
-                    "type": "string"
-                },
-                "jarak_tpa": {
-                    "type": "string"
-                },
-                "jumlah_penduduk": {
-                    "type": "string"
-                },
-                "lokasi": {
-                    "type": "string"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
-                    "type": "string"
-                },
-                "nama": {
-                    "type": "string"
-                },
-                "timbulan_sampah": {
                     "type": "string"
                 }
             }
@@ -1025,6 +1107,30 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.AlternativeGetByIDResponse": {
+            "type": "object",
+            "properties": {
+                "datas": {
+                    "$ref": "#/definitions/entity.AlternativeEntityModel"
+                }
+            }
+        },
+        "dto.AlternativeGetByIDResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.AlternativeGetByIDResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
         "dto.AlternativeUpdateRequest": {
             "type": "object",
             "required": [
@@ -1032,15 +1138,6 @@ const docTemplate = `{
             ],
             "properties": {
                 "Aksesibilitas": {
-                    "type": "string"
-                },
-                "collection_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
                     "type": "string"
                 },
                 "estetika": {
@@ -1059,12 +1156,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "lokasi": {
-                    "type": "string"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
                     "type": "string"
                 },
                 "nama": {
@@ -1352,13 +1443,7 @@ const docTemplate = `{
         "dto.CollectionCreateRequest": {
             "type": "object",
             "properties": {
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
+                "deskripsi": {
                     "type": "string"
                 },
                 "nama": {
@@ -1382,16 +1467,10 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
+                "deskripsi": {
+                    "type": "string"
+                },
                 "id": {
-                    "type": "string"
-                },
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
                     "type": "string"
                 },
                 "modified_at": {
@@ -1428,41 +1507,7 @@ const docTemplate = `{
         "dto.CollectionDeleteResponse": {
             "type": "object",
             "properties": {
-                "alternatives": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.AlternativeEntityModel"
-                    }
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
                 "id": {
-                    "type": "string"
-                },
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
-                    "type": "string"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
-                    "type": "string"
-                },
-                "nama": {
-                    "type": "string",
-                    "example": "Mencari lokasi TPS di balige"
-                },
-                "user_id": {
                     "type": "string"
                 }
             }
@@ -1483,25 +1528,22 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.CollectionGetByUserIDResponse": {
+        "dto.CollectionGetByIDResponse": {
             "type": "object",
             "properties": {
                 "datas": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.CollectionEntityModel"
-                    }
+                    "$ref": "#/definitions/entity.CollectionEntityModel"
                 }
             }
         },
-        "dto.CollectionGetByUserIDResponseDoc": {
+        "dto.CollectionGetByIDResponseDoc": {
             "type": "object",
             "properties": {
                 "body": {
                     "type": "object",
                     "properties": {
                         "data": {
-                            "$ref": "#/definitions/dto.CollectionGetByUserIDResponse"
+                            "$ref": "#/definitions/dto.CollectionGetByIDResponse"
                         },
                         "meta": {
                             "$ref": "#/definitions/response.Meta"
@@ -1516,42 +1558,15 @@ const docTemplate = `{
                 "id"
             ],
             "properties": {
-                "alternatives": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.AlternativeEntityModel"
-                    }
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
+                "deskripsi": {
                     "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
-                    "type": "string"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
-                    "type": "string"
-                },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
-                },
-                "user_id": {
-                    "type": "string"
                 }
             }
         },
@@ -1570,16 +1585,10 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
+                "deskripsi": {
+                    "type": "string"
+                },
                 "id": {
-                    "type": "string"
-                },
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
                     "type": "string"
                 },
                 "modified_at": {
@@ -1605,6 +1614,33 @@ const docTemplate = `{
                     "properties": {
                         "data": {
                             "$ref": "#/definitions/dto.CollectionUpdateResponse"
+                        },
+                        "meta": {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "dto.CollectionsGetResponse": {
+            "type": "object",
+            "properties": {
+                "datas": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.CollectionEntityModel"
+                    }
+                }
+            }
+        },
+        "dto.CollectionsGetResponseDoc": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "$ref": "#/definitions/dto.CollectionsGetResponse"
                         },
                         "meta": {
                             "$ref": "#/definitions/response.Meta"
@@ -1705,43 +1741,7 @@ const docTemplate = `{
         "dto.TpsDeleteResponse": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "created_by": {
-                    "type": "string"
-                },
                 "id": {
-                    "type": "string"
-                },
-                "jarak_tpa": {
-                    "type": "string"
-                },
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
-                    "type": "string"
-                },
-                "lattitude": {
-                    "type": "string"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "longtitude": {
-                    "type": "string"
-                },
-                "modified_at": {
-                    "type": "string"
-                },
-                "modified_by": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 }
             }
@@ -1998,16 +1998,10 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
+                "deskripsi": {
+                    "type": "string"
+                },
                 "id": {
-                    "type": "string"
-                },
-                "kabupaten": {
-                    "type": "string"
-                },
-                "kecamatan": {
-                    "type": "string"
-                },
-                "kelurahan": {
                     "type": "string"
                 },
                 "modified_at": {

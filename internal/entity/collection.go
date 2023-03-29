@@ -10,15 +10,13 @@ import (
 
 type CollectionEntity struct {
 	Nama      string `json:"nama" example:"Mencari lokasi TPS di balige"`
-	Kelurahan string `json:"kelurahan"`
-	Kecamatan string `json:"kecamatan"`
-	Kabupaten string `json:"kabupaten"`
+	Deskripsi string `json:"deskripsi"`
 }
 
 type CollectionEntityModel struct {
 	abstraction.Entity
 	CollectionEntity
-	Alternatives []AlternativeEntityModel `json:"alternatives" gorm:"foreignKey:CollectionID"`
+	Alternatives []AlternativeEntityModel `json:"alternatives" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
 	UserID       uuid.UUID                `json:"user_id" gorm:"size:191"`
 	//Context      *abstraction.Context     `json:"-" gorm:"-"`
 }

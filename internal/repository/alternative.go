@@ -56,6 +56,7 @@ func (a *alternative) FindByCollectionID(ctx context.Context, collectionID *stri
 	if err != nil {
 		return nil, err
 	}
+
 	return &datas, nil
 }
 
@@ -74,7 +75,7 @@ func (a *alternative) Create(ctx context.Context, e *entity.AlternativeEntityMod
 }
 
 func (a *alternative) Update(ctx context.Context, id *string, e *entity.AlternativeEntityModel) (*entity.AlternativeEntityModel, error) {
-	err := a.Db.Where("id = ?", id).First(e).
+	err := a.Db.Model(e).Where("id = ?", id).Updates(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err

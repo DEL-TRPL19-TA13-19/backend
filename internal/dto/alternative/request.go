@@ -5,7 +5,11 @@ import (
 )
 
 type AlternativeGetByCollectionIDRequest struct {
-	CollectionID string `json:"id"`
+	CollectionID string `json:"collection_id" param:"collection_id" validate:"required"`
+}
+
+type AlternativeGetByIDRequest struct {
+	ID string `json:"id" param:"id" validate:"required"`
 }
 
 type AlternativeCreateRequest struct {
@@ -15,10 +19,10 @@ type AlternativeCreateRequest struct {
 
 type AlternativeUpdateRequest struct {
 	ID string `param:"id" validate:"required"`
-	entity.AlternativeEntityModel
+	entity.AlternativeEntity
 }
 
 type AlternativeDeleteRequest struct {
 	ID string `param:"id" validate:"required"`
-	entity.AlternativeEntityModel
+	entity.AlternativeEntity
 }

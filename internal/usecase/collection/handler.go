@@ -19,21 +19,43 @@ func NewHandler(f *factory.Factory) *handler {
 	return &handler{service}
 }
 
-// GetByUserID
-// @Summary Get Collection By UserID
-// @Description Get Collection By UserID
+// Get
+// @Summary Get All Collections
+// @Description Get ALl Collections
 // @Tags collection
 // @Accept json
 // @Produce json
-// @Param user_id path string true "id path"
-// @Success 200 {object} dto.CollectionGetByUserIDResponseDoc
+// @Success 200 {object} dto.CollectionsGetResponseDoc
 // @Failure 400 {object} response.errorResponse
 // @Failure 404 {object} response.errorResponse
 // @Failure 500 {object} response.errorResponse
-// @Router /collection/{user_id} [get]
-func (h *handler) GetByUserID(c echo.Context) error {
+// @Router /collection [get]
+func (h *handler) Get(c echo.Context) error {
 	ctx := c.Request().Context()
-	payload := new(dto.CollectionGetByUserIDRequest)
+
+	result, err := h.service.FindAll(ctx)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+}
+
+// GetByID
+// @Summary Get Collection By CollectionID
+// @Description Get Collection By CollectionID
+// @Tags collection
+// @Accept json
+// @Produce json
+// @Param id path string true "id path"
+// @Success 200 {object} dto.CollectionGetByIDResponseDoc
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /collection/{id} [get]
+func (h *handler) GetByID(c echo.Context) error {
+	ctx := c.Request().Context()
+	payload := new(dto.CollectionGetByIDRequest)
 	if err = c.Bind(payload); err != nil {
 		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
 	}
@@ -44,7 +66,40 @@ func (h *handler) GetByUserID(c echo.Context) error {
 
 	fmt.Printf("%+v", payload)
 
-	result, err := h.service.FindById(ctx, payload)
+	result, err := h.service.FindByID(ctx, payload)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+}
+
+// GetByUserID
+// @Summary Get Collection By UserID
+// @Description Get Collection By UserID
+// @Tags collection
+// @Accept json
+// @Produce json
+// @Param user_id path string true "user_id path"
+// @Success 200 {object} dto.CollectionsGetResponseDoc
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /collection/user/{user_id} [get]
+func (h *handler) GetByUserID(c echo.Context) error {
+	ctx := c.Request().Context()
+	payload := new(dto.CollectionsGetByUserIDRequest)
+	if err = c.Bind(payload); err != nil {
+		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
+	}
+	if err = c.Validate(payload); err != nil {
+		response := response.ErrorBuilder(&response.ErrorConstant.Validation, err)
+		return response.Send(c)
+	}
+
+	fmt.Printf("%+v", payload)
+
+	result, err := h.service.FindByUserId(ctx, payload)
 	if err != nil {
 		return response.ErrorResponse(err).Send(c)
 	}
@@ -90,19 +145,18 @@ func (h *handler) Create(c echo.Context) error {
 // @Tags collection
 // @Accept  json
 // @Produce  json
-// @Param id path string true "id path"
 // @Param request body dto.CollectionUpdateRequest true "request body"
 // @Success 200 {object} dto.CollectionUpdateResponseDoc
 // @Failure 400 {object} response.errorResponse
 // @Failure 404 {object} response.errorResponse
 // @Failure 500 {object} response.errorResponse
-// @Router /collection/{id} [patch]
+// @Router /collection [patch]
 func (h *handler) Update(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	payload := new(dto.CollectionUpdateRequest)
 	if err := c.Bind(&payload); err != nil {
-		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
+		return response.ErrorBuilder(&response.ErrorConstant.NotFound, err).Send(c)
 	}
 	if err := c.Validate(payload); err != nil {
 		return response.ErrorBuilder(&response.ErrorConstant.Validation, err).Send(c)

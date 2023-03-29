@@ -16,6 +16,7 @@ import (
 
 type Service interface {
 	FindAll(ctx context.Context) (*dto.AlternativesGetResponse, error)
+	FindByID(ctx context.Context, payload *dto.AlternativeGetByIDRequest) (*dto.AlternativeGetByIDResponse, error)
 	FindByCollectionID(ctx context.Context, payload *dto.AlternativeGetByCollectionIDRequest) (*dto.AlternativeGetByCollectionIDResponse, error)
 	Create(ctx context.Context, payload *dto.AlternativeCreateRequest) (*dto.AlternativeCreateResponse, error)
 	Update(ctx context.Context, payload *dto.AlternativeUpdateRequest) (*dto.AlternativeUpdateResponse, error)
@@ -52,6 +53,25 @@ func (s *service) FindAll(ctx context.Context) (*dto.AlternativesGetResponse, er
 	return result, nil
 }
 
+func (s *service) FindByID(ctx context.Context, payload *dto.AlternativeGetByIDRequest) (*dto.AlternativeGetByIDResponse, error) {
+	var result *dto.AlternativeGetByIDResponse
+
+	data, err := s.Repository.FindByID(ctx, &payload.ID)
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	result = &dto.AlternativeGetByIDResponse{
+		Datas: *data,
+	}
+
+	return result, nil
+}
+
 func (s *service) FindByCollectionID(ctx context.Context, payload *dto.AlternativeGetByCollectionIDRequest) (*dto.AlternativeGetByCollectionIDResponse, error) {
 	var result *dto.AlternativeGetByCollectionIDResponse
 
@@ -76,14 +96,20 @@ func (s *service) Create(ctx context.Context, payload *dto.AlternativeCreateRequ
 	var data *entity.AlternativeEntityModel
 
 	if err = trxmanager.New(s.Db).WithTrxV2(ctx, func(ctx context.Context, f *factory.Factory) error {
-		AlternativeRepository := f.AlternativeRepository
+		alternativeRepository := f.AlternativeRepository
 
 		data = &entity.AlternativeEntityModel{
 			Entity:            abstraction.Entity{ID: uuid.NewString()},
 			AlternativeEntity: payload.AlternativeEntity,
 			CollectionID:      payload.CollectionID,
 		}
-		_, err := AlternativeRepository.Create(ctx, data)
+
+		_, err := alternativeRepository.FindByCollectionID(ctx, &payload.CollectionID)
+		if err != nil {
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+
+		_, err = alternativeRepository.Create(ctx, data)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
 		}
@@ -109,17 +135,16 @@ func (s *service) Update(ctx context.Context, payload *dto.AlternativeUpdateRequ
 		alternativeRepository := f.AlternativeRepository
 
 		data = &entity.AlternativeEntityModel{
-			Entity:            abstraction.Entity{},
-			AlternativeEntity: entity.AlternativeEntity{},
-			CollectionID:      "",
+			AlternativeEntity: payload.AlternativeEntity,
+			Entity:            abstraction.Entity{ID: payload.ID},
 		}
 
-		_, err := alternativeRepository.FindByCollectionID(ctx, &payload.ID)
+		_, err := alternativeRepository.FindByID(ctx, &payload.ID)
 		if err != nil {
-			return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err)
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
 
-		data, err = alternativeRepository.Update(ctx, &payload.ID, data)
+		_, err = alternativeRepository.Update(ctx, &payload.ID, data)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
 		}
@@ -141,10 +166,12 @@ func (s *service) Delete(ctx context.Context, payload *dto.AlternativeDeleteRequ
 
 	if err = trxmanager.New(s.Db).WithTrxV2(ctx, func(ctx context.Context, f *factory.Factory) error {
 		alternativeRepository := f.AlternativeRepository
-
-		data, err = alternativeRepository.Delete(ctx, &payload.ID, data)
+		data = &entity.AlternativeEntityModel{
+			AlternativeEntity: payload.AlternativeEntity,
+		}
+		_, err := alternativeRepository.FindByID(ctx, &payload.ID)
 		if err != nil {
-			return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err)
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
 
 		_, err = alternativeRepository.Delete(ctx, &payload.ID, data)
@@ -157,7 +184,7 @@ func (s *service) Delete(ctx context.Context, payload *dto.AlternativeDeleteRequ
 	}
 
 	result = &dto.AlternativeDeleteResponse{
-		AlternativeEntityModel: *data,
+		ID: &payload.ID,
 	}
 
 	return result, nil

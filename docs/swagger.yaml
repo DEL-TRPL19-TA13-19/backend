@@ -79,33 +79,7 @@ definitions:
     type: object
   dto.AlternativeDeleteResponse:
     properties:
-      Aksesibilitas:
-        type: string
-      collection_id:
-        type: string
-      created_at:
-        type: string
-      created_by:
-        type: string
-      estetika:
-        type: string
       id:
-        type: string
-      jarak-tps:
-        type: string
-      jarak_tpa:
-        type: string
-      jumlah_penduduk:
-        type: string
-      lokasi:
-        type: string
-      modified_at:
-        type: string
-      modified_by:
-        type: string
-      nama:
-        type: string
-      timbulan_sampah:
         type: string
     type: object
   dto.AlternativeDeleteResponseDoc:
@@ -135,15 +109,24 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
+  dto.AlternativeGetByIDResponse:
+    properties:
+      datas:
+        $ref: '#/definitions/entity.AlternativeEntityModel'
+    type: object
+  dto.AlternativeGetByIDResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.AlternativeGetByIDResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
   dto.AlternativeUpdateRequest:
     properties:
       Aksesibilitas:
-        type: string
-      collection_id:
-        type: string
-      created_at:
-        type: string
-      created_by:
         type: string
       estetika:
         type: string
@@ -156,10 +139,6 @@ definitions:
       jumlah_penduduk:
         type: string
       lokasi:
-        type: string
-      modified_at:
-        type: string
-      modified_by:
         type: string
       nama:
         type: string
@@ -356,11 +335,7 @@ definitions:
     type: object
   dto.CollectionCreateRequest:
     properties:
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
+      deskripsi:
         type: string
       nama:
         example: Mencari lokasi TPS di balige
@@ -376,13 +351,9 @@ definitions:
         type: string
       created_by:
         type: string
+      deskripsi:
+        type: string
       id:
-        type: string
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
         type: string
       modified_at:
         type: string
@@ -406,30 +377,7 @@ definitions:
     type: object
   dto.CollectionDeleteResponse:
     properties:
-      alternatives:
-        items:
-          $ref: '#/definitions/entity.AlternativeEntityModel'
-        type: array
-      created_at:
-        type: string
-      created_by:
-        type: string
       id:
-        type: string
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
-        type: string
-      modified_at:
-        type: string
-      modified_by:
-        type: string
-      nama:
-        example: Mencari lokasi TPS di balige
-        type: string
-      user_id:
         type: string
     type: object
   dto.CollectionDeleteResponseDoc:
@@ -442,49 +390,29 @@ definitions:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
-  dto.CollectionGetByUserIDResponse:
+  dto.CollectionGetByIDResponse:
     properties:
       datas:
-        items:
-          $ref: '#/definitions/entity.CollectionEntityModel'
-        type: array
+        $ref: '#/definitions/entity.CollectionEntityModel'
     type: object
-  dto.CollectionGetByUserIDResponseDoc:
+  dto.CollectionGetByIDResponseDoc:
     properties:
       body:
         properties:
           data:
-            $ref: '#/definitions/dto.CollectionGetByUserIDResponse'
+            $ref: '#/definitions/dto.CollectionGetByIDResponse'
           meta:
             $ref: '#/definitions/response.Meta'
         type: object
     type: object
   dto.CollectionUpdateRequest:
     properties:
-      alternatives:
-        items:
-          $ref: '#/definitions/entity.AlternativeEntityModel'
-        type: array
-      created_at:
-        type: string
-      created_by:
+      deskripsi:
         type: string
       id:
         type: string
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
-        type: string
-      modified_at:
-        type: string
-      modified_by:
-        type: string
       nama:
         example: Mencari lokasi TPS di balige
-        type: string
-      user_id:
         type: string
     required:
     - id
@@ -499,13 +427,9 @@ definitions:
         type: string
       created_by:
         type: string
+      deskripsi:
+        type: string
       id:
-        type: string
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
         type: string
       modified_at:
         type: string
@@ -523,6 +447,23 @@ definitions:
         properties:
           data:
             $ref: '#/definitions/dto.CollectionUpdateResponse'
+          meta:
+            $ref: '#/definitions/response.Meta'
+        type: object
+    type: object
+  dto.CollectionsGetResponse:
+    properties:
+      datas:
+        items:
+          $ref: '#/definitions/entity.CollectionEntityModel'
+        type: array
+    type: object
+  dto.CollectionsGetResponseDoc:
+    properties:
+      body:
+        properties:
+          data:
+            $ref: '#/definitions/dto.CollectionsGetResponse'
           meta:
             $ref: '#/definitions/response.Meta'
         type: object
@@ -587,31 +528,7 @@ definitions:
     type: object
   dto.TpsDeleteResponse:
     properties:
-      created_at:
-        type: string
-      created_by:
-        type: string
       id:
-        type: string
-      jarak_tpa:
-        type: string
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
-        type: string
-      lattitude:
-        type: string
-      location:
-        type: string
-      longtitude:
-        type: string
-      modified_at:
-        type: string
-      modified_by:
-        type: string
-      name:
         type: string
     type: object
   dto.TpsDeleteResponseDoc:
@@ -778,13 +695,9 @@ definitions:
         type: string
       created_by:
         type: string
+      deskripsi:
+        type: string
       id:
-        type: string
-      kabupaten:
-        type: string
-      kecamatan:
-        type: string
-      kelurahan:
         type: string
       modified_at:
         type: string
@@ -877,6 +790,39 @@ paths:
       summary: Get All Alternatives
       tags:
       - alternative
+    patch:
+      consumes:
+      - application/json
+      description: Update alternative
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AlternativeUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AlternativeUpdateResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update alternative
+      tags:
+      - alternative
     post:
       consumes:
       - application/json
@@ -908,39 +854,6 @@ paths:
           schema:
             $ref: '#/definitions/response.errorResponse'
       summary: Create Alternative
-      tags:
-      - alternative
-  /alternative/{collection_id}:
-    get:
-      consumes:
-      - application/json
-      description: Get Alternatives By Collection ID
-      parameters:
-      - description: id path
-        in: path
-        name: collection_id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.AlternativeGetByCollectionIDResponseDoc'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-      summary: Get Alternatives By Collection ID
       tags:
       - alternative
   /alternative/{id}:
@@ -976,29 +889,23 @@ paths:
       summary: Delete alternative
       tags:
       - alternative
-    patch:
+    get:
       consumes:
       - application/json
-      description: Update alternative
+      description: Get Alternatives By ID
       parameters:
       - description: id path
         in: path
         name: id
         required: true
         type: string
-      - description: request body
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.AlternativeUpdateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.AlternativeUpdateResponseDoc'
+            $ref: '#/definitions/dto.AlternativeGetByIDResponseDoc'
         "400":
           description: Bad Request
           schema:
@@ -1011,7 +918,40 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Update alternative
+      summary: Get Alternatives By ID
+      tags:
+      - alternative
+  /alternative/collection/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Alternatives By Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AlternativeGetByCollectionIDResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Alternatives By Collection ID
       tags:
       - alternative
   /auth/login:
@@ -1083,6 +1023,65 @@ paths:
       tags:
       - auth
   /collection:
+    get:
+      consumes:
+      - application/json
+      description: Get ALl Collections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CollectionsGetResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get All Collections
+      tags:
+      - collection
+    patch:
+      consumes:
+      - application/json
+      description: Update collection
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CollectionUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.CollectionUpdateResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update collection
+      tags:
+      - collection
     post:
       consumes:
       - application/json
@@ -1149,29 +1148,23 @@ paths:
       summary: Delete collection
       tags:
       - collection
-    patch:
+    get:
       consumes:
       - application/json
-      description: Update collection
+      description: Get Collection By CollectionID
       parameters:
       - description: id path
         in: path
         name: id
         required: true
         type: string
-      - description: request body
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.CollectionUpdateRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CollectionUpdateResponseDoc'
+            $ref: '#/definitions/dto.CollectionGetByIDResponseDoc'
         "400":
           description: Bad Request
           schema:
@@ -1184,16 +1177,16 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Update collection
+      summary: Get Collection By CollectionID
       tags:
       - collection
-  /collection/{user_id}:
+  /collection/user/{user_id}:
     get:
       consumes:
       - application/json
       description: Get Collection By UserID
       parameters:
-      - description: id path
+      - description: user_id path
         in: path
         name: user_id
         required: true
@@ -1204,7 +1197,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.CollectionGetByUserIDResponseDoc'
+            $ref: '#/definitions/dto.CollectionsGetResponseDoc'
         "400":
           description: Bad Request
           schema:
@@ -1245,6 +1238,39 @@ paths:
           schema:
             $ref: '#/definitions/response.errorResponse'
       summary: Get All Tps
+      tags:
+      - tps
+    patch:
+      consumes:
+      - application/json
+      description: Update tps
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TpsUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TpsUpdateResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update tps
       tags:
       - tps
     post:
@@ -1343,39 +1369,6 @@ paths:
           schema:
             $ref: '#/definitions/response.errorResponse'
       summary: Get Tps by id
-      tags:
-      - tps
-    patch:
-      consumes:
-      - application/json
-      description: Update tps
-      parameters:
-      - description: request body
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/dto.TpsUpdateRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.TpsUpdateResponseDoc'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-      summary: Update tps
       tags:
       - tps
 swagger: "2.0"

@@ -5,13 +5,23 @@ import (
 	"ta13-svc/pkg/response"
 )
 
-type CollectionGetByUserIDResponse struct {
+type CollectionsGetResponse struct {
 	Datas []entity.CollectionEntityModel
 }
-type CollectionGetByUserIDResponseDoc struct {
+type CollectionsGetResponseDoc struct {
 	Body struct {
-		Meta response.Meta                 `json:"meta"`
-		Data CollectionGetByUserIDResponse `json:"data"`
+		Meta response.Meta          `json:"meta"`
+		Data CollectionsGetResponse `json:"data"`
+	} `json:"body"`
+}
+
+type CollectionGetByIDResponse struct {
+	Datas entity.CollectionEntityModel
+}
+type CollectionGetByIDResponseDoc struct {
+	Body struct {
+		Meta response.Meta             `json:"meta"`
+		Data CollectionGetByIDResponse `json:"data"`
 	} `json:"body"`
 }
 
@@ -36,7 +46,7 @@ type CollectionUpdateResponseDoc struct {
 }
 
 type CollectionDeleteResponse struct {
-	entity.CollectionEntityModel
+	ID *string `json:"id"`
 }
 type CollectionDeleteResponseDoc struct {
 	Body struct {

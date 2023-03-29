@@ -118,7 +118,7 @@ func (h *handler) Create(c echo.Context) error {
 // @Failure 400 {object} response.errorResponse
 // @Failure 404 {object} response.errorResponse
 // @Failure 500 {object} response.errorResponse
-// @Router /tps/{id} [patch]
+// @Router /tps [patch]
 func (h *handler) Update(c echo.Context) error {
 	ctx := c.Request().Context()
 

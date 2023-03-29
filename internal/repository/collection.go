@@ -8,6 +8,7 @@ import (
 )
 
 type CollectionRepository interface {
+	FindAll(ctx context.Context) (*[]entity.CollectionEntityModel, error)
 	FindByID(ctx context.Context, id *string) (*entity.CollectionEntityModel, error)
 	FindByUserID(ctx context.Context, userID *string) (*[]entity.CollectionEntityModel, error)
 	Create(ctx context.Context, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
@@ -25,6 +26,18 @@ func NewCollection(db *gorm.DB) *collection {
 			Db: db,
 		},
 	}
+}
+
+func (c *collection) FindAll(ctx context.Context) (*[]entity.CollectionEntityModel, error) {
+	var datas []entity.CollectionEntityModel
+
+	err := c.Db.Find(&datas).WithContext(ctx).Error
+
+	if err != nil {
+		return &datas, err
+	}
+	return &datas, nil
+
 }
 
 func (c *collection) FindByID(ctx context.Context, id *string) (*entity.CollectionEntityModel, error) {
@@ -47,7 +60,7 @@ func (c *collection) FindByUserID(ctx context.Context, userID *string) (*[]entit
 
 	//err := conn.Preload("Users").Find(&datas).
 	err := c.Db.Where("user_id = ?", userID).Find(&datas).
-		WithContext(ctx).Limit(20).Offset(40).Error
+		WithContext(ctx).Error
 
 	if err != nil {
 		return nil, err
@@ -74,14 +87,7 @@ func (c *collection) Create(ctx context.Context, e *entity.CollectionEntityModel
 }
 
 func (c *collection) Update(ctx context.Context, id *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error) {
-
-	err := c.Db.Where("id = ?", id).First(e).
-		WithContext(ctx).Error
-	if err != nil {
-		return nil, err
-	}
-
-	err = c.Db.Model(e).Updates(e).
+	err := c.Db.Model(e).Where("id = ?", id).Updates(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err
@@ -91,7 +97,7 @@ func (c *collection) Update(ctx context.Context, id *string, e *entity.Collectio
 }
 
 func (c *collection) Delete(ctx context.Context, id *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error) {
-	err := c.Db.Where("id = ?", id).Delete(e).
+	err := c.Db.Model(e).Where("id = ?", id).Delete(e).
 		WithContext(ctx).Error
 	if err != nil {
 		return nil, err

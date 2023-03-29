@@ -12,13 +12,15 @@ func (h *handler) Route(g *echo.Group) {
 
 			// DO PROCESS jwt decode
 			// GET USER ID then set
-			ctx := context.WithValue(c.Request().Context(), "user", "9f9b019f-5fd1-4383-bf71-7d43f7b10f9e")
+			ctx := context.WithValue(c.Request().Context(), "user", "77ef1362-3a88-4097-877f-25ce394365b2")
 			c.SetRequest(c.Request().WithContext(ctx))
 			return next(c)
 		}
 	})
-	g.GET("/:user_id", h.GetByUserID)
+	g.GET("", h.Get)
+	g.GET("/:id", h.GetByID)
+	g.GET("/user/:user_id", h.GetByUserID)
 	g.POST("", h.Create)
-	g.PATCH("/:id", h.Update)
+	g.PATCH("", h.Update)
 	g.DELETE("/:id", h.Delete)
 }

@@ -15,7 +15,9 @@ import (
 )
 
 type Service interface {
-	FindById(ctx context.Context, payload *dto.CollectionGetByUserIDRequest) (*dto.CollectionGetByUserIDResponse, error)
+	FindAll(ctx context.Context) (*dto.CollectionsGetResponse, error)
+	FindByID(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dto.CollectionGetByIDResponse, error)
+	FindByUserId(ctx context.Context, payload *dto.CollectionsGetByUserIDRequest) (*dto.CollectionsGetResponse, error)
 	Create(ctx context.Context, payload *dto.CollectionCreateRequest) (*dto.CollectionCreateResponse, error)
 	Update(ctx context.Context, payload *dto.CollectionUpdateRequest) (*dto.CollectionUpdateResponse, error)
 	Delete(ctx context.Context, payload *dto.CollectionDeleteRequest) (*dto.CollectionDeleteResponse, error)
@@ -32,11 +34,27 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) FindById(ctx context.Context, payload *dto.CollectionGetByUserIDRequest) (*dto.CollectionGetByUserIDResponse, error) {
-	var result *dto.CollectionGetByUserIDResponse
+func (s *service) FindAll(ctx context.Context) (*dto.CollectionsGetResponse, error) {
+	var result *dto.CollectionsGetResponse
+	//var datas *[]entity.CollectionEntityModel
+
+	datas, err := s.Repository.FindAll(ctx)
+
+	if err != nil {
+		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	result = &dto.CollectionsGetResponse{
+		Datas: *datas,
+	}
+
+	return result, nil
+}
+
+func (s *service) FindByUserId(ctx context.Context, payload *dto.CollectionsGetByUserIDRequest) (*dto.CollectionsGetResponse, error) {
+	var result *dto.CollectionsGetResponse
 
 	data, err := s.Repository.FindByUserID(ctx, &payload.UserID)
-
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
@@ -44,7 +62,25 @@ func (s *service) FindById(ctx context.Context, payload *dto.CollectionGetByUser
 		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	result = &dto.CollectionGetByUserIDResponse{
+	result = &dto.CollectionsGetResponse{
+		Datas: *data,
+	}
+
+	return result, nil
+}
+
+func (s *service) FindByID(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dto.CollectionGetByIDResponse, error) {
+	var result *dto.CollectionGetByIDResponse
+
+	data, err := s.Repository.FindByID(ctx, &payload.ID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	result = &dto.CollectionGetByIDResponse{
 		Datas: *data,
 	}
 
@@ -89,18 +125,22 @@ func (s *service) Update(ctx context.Context, payload *dto.CollectionUpdateReque
 
 	if err = trxmanager.New(s.Db).WithTrxV2(ctx, func(ctx context.Context, f *factory.Factory) error {
 		collectionRepository := f.CollectionRepository
+
+		data = &entity.CollectionEntityModel{
+			Entity:           abstraction.Entity{ID: payload.ID},
+			CollectionEntity: payload.CollectionEntity,
+		}
 		_, err := collectionRepository.FindByID(ctx, &payload.ID)
 		if err != nil {
-			return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err)
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
 
-		data.CollectionEntity = payload.CollectionEntity
-		data, err = collectionRepository.Update(ctx, &payload.ID, data)
-
+		_, err = collectionRepository.Update(ctx, &payload.ID, data)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
 		}
 		return nil
+
 	}); err != nil {
 		return result, err
 	}
@@ -119,13 +159,17 @@ func (s *service) Delete(ctx context.Context, payload *dto.CollectionDeleteReque
 	if err = trxmanager.New(s.Db).WithTrxV2(ctx, func(ctx context.Context, f *factory.Factory) error {
 		collectionRepository := f.CollectionRepository
 
-		data, err = collectionRepository.FindByID(ctx, &payload.ID)
-
-		if err != nil {
-			return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err)
+		data = &entity.CollectionEntityModel{
+			CollectionEntity: payload.CollectionEntity,
 		}
 
-		data, err = collectionRepository.Delete(ctx, &payload.ID, data)
+		_, err = collectionRepository.FindByID(ctx, &payload.ID)
+
+		if err != nil {
+			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+
+		_, err = collectionRepository.Delete(ctx, &payload.ID, data)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
 		}
@@ -135,7 +179,7 @@ func (s *service) Delete(ctx context.Context, payload *dto.CollectionDeleteReque
 	}
 
 	result = &dto.CollectionDeleteResponse{
-		CollectionEntityModel: *data,
+		ID: &payload.ID,
 	}
 
 	return result, nil

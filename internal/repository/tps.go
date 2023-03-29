@@ -67,12 +67,6 @@ func (t *tps) Create(ctx context.Context, e *entity.TpsEntityModel) (*entity.Tps
 }
 
 func (t *tps) Update(ctx context.Context, id *string, e *entity.TpsEntityModel) (*entity.TpsEntityModel, error) {
-
-	//err := t.Db.Where("id = ?", id).First(e).
-	//	WithContext(ctx).Error
-	//if err != nil {
-	//	return nil, err
-	//}
 	err := t.Db.Model(e).Where("id = ?", id).Updates(e).
 		WithContext(ctx).Error
 	if err != nil {
