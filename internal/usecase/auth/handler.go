@@ -2,7 +2,6 @@ package auth
 
 import (
 	"github.com/labstack/echo/v4"
-	"ta13-svc/internal/abstraction"
 	dto "ta13-svc/internal/dto/auth"
 	"ta13-svc/internal/factory"
 	"ta13-svc/pkg/response"
@@ -32,7 +31,7 @@ func NewHandler(f *factory.Factory) *handler {
 // @Failure 500 {object} response.errorResponse
 // @Router /auth/login [post]
 func (h *handler) Login(c echo.Context) error {
-	cc := c.(*abstraction.Context)
+	ctx := c.Request().Context()
 
 	payload := new(dto.AuthLoginRequest)
 
@@ -44,7 +43,7 @@ func (h *handler) Login(c echo.Context) error {
 		return response.ErrorBuilder(&response.ErrorConstant.Validation, err).Send(c)
 	}
 
-	data, err := h.service.Login(cc, payload)
+	data, err := h.service.Login(ctx, payload)
 
 	if err != nil {
 		return response.ErrorResponse(err).Send(c)
@@ -66,7 +65,7 @@ func (h *handler) Login(c echo.Context) error {
 // @Failure 500 {object} response.errorResponse
 // @Router /auth/register [post]
 func (h *handler) Register(c echo.Context) error {
-	cc := c.(*abstraction.Context)
+	ctx := c.Request().Context()
 
 	payload := new(dto.AuthRegisterRequest)
 
@@ -77,7 +76,7 @@ func (h *handler) Register(c echo.Context) error {
 		return response.ErrorBuilder(&response.ErrorConstant.Validation, err).Send(c)
 	}
 
-	data, err := h.service.Register(cc, payload)
+	data, err := h.service.Register(ctx, payload)
 	if err != nil {
 		return response.ErrorResponse(err).Send(c)
 	}

@@ -4,8 +4,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"ta13-svc/internal/abstraction"
-	"ta13-svc/pkg/constant"
-	"ta13-svc/pkg/date"
+	"ta13-svc/pkg/utils/constant"
+	"ta13-svc/pkg/utils/date"
 )
 
 type UserEntity struct {
@@ -19,7 +19,8 @@ type UserEntity struct {
 type UserEntityModel struct {
 	abstraction.Entity
 	UserEntity
-	Context *abstraction.Context `json:"-" gorm:"-"`
+	Collections []CollectionEntityModel `json:"collections" gorm:"foreignKey:UserID"`
+	//Context     *abstraction.Context    `json:"-" gorm:"-"`
 }
 
 func (UserEntityModel) TableName() string {
@@ -46,6 +47,6 @@ func (m *UserEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (m *UserEntityModel) BeforeUpdate(tx *gorm.DB) (err error) {
 	m.ModifiedAt = date.DateTodayLocal()
-	m.ModifiedBy = &m.Context.Auth.Name
+	//m.ModifiedBy = &m.Context.Auth.Name
 	return
 }

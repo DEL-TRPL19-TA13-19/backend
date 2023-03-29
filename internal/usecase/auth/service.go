@@ -1,21 +1,20 @@
 package auth
 
 import (
+	"context"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"ta13-svc/internal/abstraction"
 	dto "ta13-svc/internal/dto/auth"
 	"ta13-svc/internal/entity"
 	"ta13-svc/internal/factory"
 	"ta13-svc/internal/repository"
 	"ta13-svc/pkg/response"
-	"ta13-svc/pkg/trxmanager"
+	"ta13-svc/pkg/utils/trxmanager"
 )
 
 type Service interface {
-	Login(ctx *abstraction.Context, payload *dto.AuthLoginRequest) (*dto.AuthLoginResponse, error)
-	Register(ctx *abstraction.Context, payload *dto.AuthRegisterRequest) (*dto.AuthRegisterResponse, error)
-	FindAll(ctx *abstraction.Context) ([]*dto.GetUsersResponse, error)
+	Login(ctx context.Context, payload *dto.AuthLoginRequest) (*dto.AuthLoginResponse, error)
+	Register(ctx context.Context, payload *dto.AuthRegisterRequest) (*dto.AuthRegisterResponse, error)
 }
 
 type service struct {
@@ -29,7 +28,7 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) Login(c *abstraction.Context, payload *dto.AuthLoginRequest) (*dto.AuthLoginResponse, error) {
+func (s *service) Login(c context.Context, payload *dto.AuthLoginRequest) (*dto.AuthLoginResponse, error) {
 	var result *dto.AuthLoginResponse
 
 	data, err := s.Repository.FindByUsername(c, &payload.Username)
@@ -50,11 +49,11 @@ func (s *service) Login(c *abstraction.Context, payload *dto.AuthLoginRequest) (
 	return result, nil
 }
 
-func (s *service) Register(c *abstraction.Context, payload *dto.AuthRegisterRequest) (*dto.AuthRegisterResponse, error) {
+func (s *service) Register(c context.Context, payload *dto.AuthRegisterRequest) (*dto.AuthRegisterResponse, error) {
 	var result *dto.AuthRegisterResponse
 	var data *entity.UserEntityModel
 
-	if err = trxmanager.New(s.Db).WithTrx(c, func(c *abstraction.Context) error {
+	if err = trxmanager.New(s.Db).WithTrxV2(c, func(c context.Context, f *factory.Factory) error {
 		data, err = s.Repository.Create(c, &payload.UserEntity)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)

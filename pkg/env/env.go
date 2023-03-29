@@ -4,8 +4,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-
-	"ta13-svc/pkg/constant"
+	"ta13-svc/pkg/utils/constant"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"

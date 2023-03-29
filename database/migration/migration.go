@@ -25,6 +25,9 @@ func Init() {
 		"ta13db": &migration{
 			DbModels: &[]interface{}{
 				&entity.UserEntityModel{},
+				&entity.TpsEntityModel{},
+				&entity.CollectionEntityModel{},
+				&entity.AlternativeEntityModel{},
 			},
 			IsAutoMigrate: true,
 		},
