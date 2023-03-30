@@ -200,3 +200,36 @@ func (h *handler) Delete(c echo.Context) error {
 
 	return response.SuccessResponse(result).Send(c)
 }
+
+// CalculateAHP
+// @Summary CalculateA HP
+// @Description Calculate AHP
+// @Tags collection
+// @Accept json
+// @Produce json
+// @Param id path string true "id path"
+// @Success 200 {object} dto.CollectionGetByIDResponseDoc
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /collection/ahp/{id} [get]
+func (h *handler) CalculateAHP(c echo.Context) error {
+	ctx := c.Request().Context()
+	payload := new(dto.CollectionGetByIDRequest)
+	if err = c.Bind(payload); err != nil {
+		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
+	}
+	if err = c.Validate(payload); err != nil {
+		response := response.ErrorBuilder(&response.ErrorConstant.Validation, err)
+		return response.Send(c)
+	}
+
+	fmt.Printf("%+v", payload)
+
+	result, err := h.service.FindByID(ctx, payload)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+}

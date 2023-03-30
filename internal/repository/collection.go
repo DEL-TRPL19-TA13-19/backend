@@ -9,6 +9,7 @@ import (
 
 type CollectionRepository interface {
 	FindAll(ctx context.Context) (*[]entity.CollectionEntityModel, error)
+	FindAlternatives(ctx context.Context, id *string) (*[]entity.AlternativeEntityModel, error)
 	FindByID(ctx context.Context, id *string) (*entity.CollectionEntityModel, error)
 	FindByUserID(ctx context.Context, userID *string) (*[]entity.CollectionEntityModel, error)
 	Create(ctx context.Context, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
@@ -38,6 +39,18 @@ func (c *collection) FindAll(ctx context.Context) (*[]entity.CollectionEntityMod
 	}
 	return &datas, nil
 
+}
+
+func (c *collection) FindAlternatives(ctx context.Context, id *string) (*[]entity.AlternativeEntityModel, error) {
+	var datas []entity.AlternativeEntityModel
+
+	err := c.Db.Where("id = ?", id).Find(&datas).WithContext(ctx).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &datas, nil
 }
 
 func (c *collection) FindByID(ctx context.Context, id *string) (*entity.CollectionEntityModel, error) {

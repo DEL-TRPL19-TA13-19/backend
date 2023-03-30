@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"ta13-svc/internal/abstraction"
+	dtoAlter "ta13-svc/internal/dto/alternative"
 	dto "ta13-svc/internal/dto/collection"
 	"ta13-svc/internal/entity"
 	"ta13-svc/internal/factory"
@@ -21,6 +22,7 @@ type Service interface {
 	Create(ctx context.Context, payload *dto.CollectionCreateRequest) (*dto.CollectionCreateResponse, error)
 	Update(ctx context.Context, payload *dto.CollectionUpdateRequest) (*dto.CollectionUpdateResponse, error)
 	Delete(ctx context.Context, payload *dto.CollectionDeleteRequest) (*dto.CollectionDeleteResponse, error)
+	CalculateAHP(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dtoAlter.AlternativesGetResponse, error)
 }
 
 type service struct {
@@ -180,6 +182,23 @@ func (s *service) Delete(ctx context.Context, payload *dto.CollectionDeleteReque
 
 	result = &dto.CollectionDeleteResponse{
 		ID: &payload.ID,
+	}
+
+	return result, nil
+}
+
+func (s *service) CalculateAHP(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dtoAlter.AlternativesGetResponse, error) {
+	var result *dtoAlter.AlternativesGetResponse
+	data, err := s.Repository.FindAlternatives(ctx, &payload.ID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return result, response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
+	}
+
+	result = &dtoAlter.AlternativesGetResponse{
+		Datas: *data,
 	}
 
 	return result, nil
