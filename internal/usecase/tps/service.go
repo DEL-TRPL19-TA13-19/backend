@@ -103,7 +103,7 @@ func (s *service) Update(ctx context.Context, payload *dto.TpsUpdateRequest) (*d
 			TpsEntity: payload.TpsEntity,
 			Entity:    abstraction.Entity{ID: payload.ID},
 		}
-		_, err = tpsRepository.FindByID(ctx, &payload.ID)
+		_, err := tpsRepository.FindByID(ctx, &payload.ID)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}

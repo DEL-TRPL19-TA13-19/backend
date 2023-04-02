@@ -156,7 +156,7 @@ func (h *handler) Update(c echo.Context) error {
 
 	payload := new(dto.CollectionUpdateRequest)
 	if err := c.Bind(&payload); err != nil {
-		return response.ErrorBuilder(&response.ErrorConstant.NotFound, err).Send(c)
+		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
 	}
 	if err := c.Validate(payload); err != nil {
 		return response.ErrorBuilder(&response.ErrorConstant.Validation, err).Send(c)

@@ -6,6 +6,6 @@ func (h *handler) Route(g *echo.Group) {
 	g.GET("", h.Get)
 	g.GET("/:id", h.GetByID)
 	g.POST("", h.Create)
-	g.PATCH("/:id", h.Update)
+	g.PATCH("", h.Update)
 	g.DELETE("/:id", h.Delete)
 }
