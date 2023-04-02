@@ -16,9 +16,9 @@ import (
 )
 
 type Service interface {
-	FindAll(ctx context.Context) (*dto.CollectionsGetResponse, error)
+	FindAll(ctx context.Context) ([]entity.CollectionEntityModel, error)
 	FindByID(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dto.CollectionGetByIDResponse, error)
-	FindByUserId(ctx context.Context, payload *dto.CollectionsGetByUserIDRequest) (*dto.CollectionsGetResponse, error)
+	FindByUserId(ctx context.Context, payload *dto.CollectionsGetByUserIDRequest) ([]entity.CollectionEntityModel, error)
 	Create(ctx context.Context, payload *dto.CollectionCreateRequest) (*dto.CollectionCreateResponse, error)
 	Update(ctx context.Context, payload *dto.CollectionUpdateRequest) (*dto.CollectionUpdateResponse, error)
 	Delete(ctx context.Context, payload *dto.CollectionDeleteRequest) (*dto.CollectionDeleteResponse, error)
@@ -36,39 +36,30 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) FindAll(ctx context.Context) (*dto.CollectionsGetResponse, error) {
-	var result *dto.CollectionsGetResponse
-	//var datas *[]entity.CollectionEntityModel
+func (s *service) FindAll(ctx context.Context) ([]entity.CollectionEntityModel, error) {
+	datas := make([]entity.CollectionEntityModel, 0)
 
-	datas, err := s.Repository.FindAll(ctx)
+	datas, err = s.Repository.FindAll(ctx)
 
 	if err != nil {
-		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	result = &dto.CollectionsGetResponse{
-		Datas: *datas,
-	}
-
-	return result, nil
+	return datas, nil
 }
 
-func (s *service) FindByUserId(ctx context.Context, payload *dto.CollectionsGetByUserIDRequest) (*dto.CollectionsGetResponse, error) {
-	var result *dto.CollectionsGetResponse
+func (s *service) FindByUserId(ctx context.Context, payload *dto.CollectionsGetByUserIDRequest) ([]entity.CollectionEntityModel, error) {
+	datas := make([]entity.CollectionEntityModel, 0)
 
-	data, err := s.Repository.FindByUserID(ctx, &payload.UserID)
+	datas, err = s.Repository.FindByUserID(ctx, &payload.UserID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+			return datas, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
-		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	result = &dto.CollectionsGetResponse{
-		Datas: *data,
-	}
-
-	return result, nil
+	return datas, nil
 }
 
 func (s *service) FindByID(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dto.CollectionGetByIDResponse, error) {
@@ -189,17 +180,6 @@ func (s *service) Delete(ctx context.Context, payload *dto.CollectionDeleteReque
 
 func (s *service) CalculateAHP(ctx context.Context, payload *dto.CollectionGetByIDRequest) (*dtoAlter.AlternativesGetResponse, error) {
 	var result *dtoAlter.AlternativesGetResponse
-	data, err := s.Repository.FindAlternatives(ctx, &payload.ID)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
-		}
-		return result, response.ErrorBuilder(&response.ErrorConstant.UnprocessableEntity, err)
-	}
-
-	result = &dtoAlter.AlternativesGetResponse{
-		Datas: *data,
-	}
 
 	return result, nil
 }

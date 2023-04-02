@@ -8,7 +8,7 @@ import (
 )
 
 type TpsRepository interface {
-	FindAll(ctx context.Context) (*[]entity.TpsEntityModel, error)
+	FindAll(ctx context.Context) ([]entity.TpsEntityModel, error)
 	FindByID(ctx context.Context, id *string) (*entity.TpsEntityModel, error)
 	Create(ctx context.Context, m *entity.TpsEntityModel) (*entity.TpsEntityModel, error)
 	Update(ctx context.Context, id *string, m *entity.TpsEntityModel) (*entity.TpsEntityModel, error)
@@ -27,17 +27,17 @@ func NewTps(db *gorm.DB) *tps {
 	}
 }
 
-func (t *tps) FindAll(ctx context.Context) (*[]entity.TpsEntityModel, error) {
+func (t *tps) FindAll(ctx context.Context) ([]entity.TpsEntityModel, error) {
 
 	var datas []entity.TpsEntityModel
 
 	err := t.Db.Find(&datas).
 		WithContext(ctx).Error
 	if err != nil {
-		return &datas, err
+		return datas, err
 	}
 
-	return &datas, nil
+	return datas, nil
 }
 
 func (t *tps) FindByID(ctx context.Context, id *string) (*entity.TpsEntityModel, error) {

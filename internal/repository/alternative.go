@@ -8,9 +8,9 @@ import (
 )
 
 type AlternativeRepository interface {
-	FindAll(ctx context.Context) (*[]entity.AlternativeEntityModel, error)
+	FindAll(ctx context.Context) ([]entity.AlternativeEntityModel, error)
 	FindByID(ctx context.Context, id *string) (*entity.AlternativeEntityModel, error)
-	FindByCollectionID(ctx context.Context, collectionID *string) (*[]entity.AlternativeEntityModel, error)
+	FindByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 	Create(ctx context.Context, e *entity.AlternativeEntityModel) (*entity.AlternativeEntityModel, error)
 	Update(ctx context.Context, id *string, e *entity.AlternativeEntityModel) (*entity.AlternativeEntityModel, error)
 	Delete(ctx context.Context, id *string, e *entity.AlternativeEntityModel) (*entity.AlternativeEntityModel, error)
@@ -28,13 +28,13 @@ func NewAlternative(db *gorm.DB) *alternative {
 	}
 }
 
-func (a *alternative) FindAll(ctx context.Context) (*[]entity.AlternativeEntityModel, error) {
+func (a *alternative) FindAll(ctx context.Context) ([]entity.AlternativeEntityModel, error) {
 	var datas []entity.AlternativeEntityModel
 	err := a.Db.Find(&datas).WithContext(ctx).Error
 	if err != nil {
-		return nil, err
+		return datas, err
 	}
-	return &datas, nil
+	return datas, nil
 }
 
 func (a *alternative) FindByID(ctx context.Context, id *string) (*entity.AlternativeEntityModel, error) {
@@ -48,16 +48,16 @@ func (a *alternative) FindByID(ctx context.Context, id *string) (*entity.Alterna
 	return &data, nil
 }
 
-func (a *alternative) FindByCollectionID(ctx context.Context, collectionID *string) (*[]entity.AlternativeEntityModel, error) {
+func (a *alternative) FindByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
 
 	var datas []entity.AlternativeEntityModel
 	err := a.Db.Where("collection_id = ?", collectionID).Find(&datas).
 		WithContext(ctx).Error
 	if err != nil {
-		return nil, err
+		return datas, err
 	}
 
-	return &datas, nil
+	return datas, nil
 }
 
 func (a *alternative) Create(ctx context.Context, e *entity.AlternativeEntityModel) (*entity.AlternativeEntityModel, error) {
