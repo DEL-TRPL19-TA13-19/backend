@@ -26,7 +26,7 @@ ENV TZ Asia/Jakarta
 # RUN mkdir -p /var/log/app
 WORKDIR /app/
 COPY --from=build /app/application .
-COPY .env.development /app/env.development
+COPY .env.prod /app/env.prod
 #COPY --from=build /app/scripts/migrations/mysql ./scripts/migrations/mysql/
 #COPY --from=build /app/assets ./assets/
 
