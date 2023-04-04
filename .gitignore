@@ -31,3 +31,12 @@
 
 # IntelliJ
 /out/
+
+.idea/
+
+.env
+.env.prod
+.env.production
+
+application
+build

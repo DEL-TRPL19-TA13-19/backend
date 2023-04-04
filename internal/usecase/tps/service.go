@@ -15,7 +15,7 @@ import (
 )
 
 type Service interface {
-	FindAll(ctx context.Context) (*dto.TpsGetResponse, error)
+	FindAll(ctx context.Context) ([]entity.TpsEntityModel, error)
 	FindById(ctx context.Context, payload *dto.TpsGetByIdRequest) (*dto.TpsGetByIdResponse, error)
 	Create(ctx context.Context, payload *dto.TpsCreateRequest) (*dto.TpsCreateResponse, error)
 	Update(ctx context.Context, payload *dto.TpsUpdateRequest) (*dto.TpsUpdateResponse, error)
@@ -33,21 +33,16 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) FindAll(ctx context.Context) (*dto.TpsGetResponse, error) {
-	var result *dto.TpsGetResponse
-	var datas *[]entity.TpsEntityModel
+func (s *service) FindAll(ctx context.Context) ([]entity.TpsEntityModel, error) {
+	datas := make([]entity.TpsEntityModel, 0)
 
-	datas, err := s.Repository.FindAll(ctx)
+	datas, err = s.Repository.FindAll(ctx)
 
 	if err != nil {
-		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	result = &dto.TpsGetResponse{
-		Datas: *datas,
-	}
-
-	return result, nil
+	return datas, nil
 }
 
 func (s *service) FindById(ctx context.Context, payload *dto.TpsGetByIdRequest) (*dto.TpsGetByIdResponse, error) {
@@ -108,7 +103,7 @@ func (s *service) Update(ctx context.Context, payload *dto.TpsUpdateRequest) (*d
 			TpsEntity: payload.TpsEntity,
 			Entity:    abstraction.Entity{ID: payload.ID},
 		}
-		_, err = tpsRepository.FindByID(ctx, &payload.ID)
+		_, err := tpsRepository.FindByID(ctx, &payload.ID)
 		if err != nil {
 			return response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}

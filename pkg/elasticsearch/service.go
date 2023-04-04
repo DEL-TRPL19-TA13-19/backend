@@ -19,6 +19,7 @@ func Init() {
 	Client, err = el.NewClient(
 		el.SetURL(os.Getenv("ELASTIC_URL_1")),
 		el.SetSniff(false),
+		el.SetHealthcheck(false),
 		// el.SetBasicAuth(os.Getenv("ELASTIC_USERNAME"), os.Getenv("ELASTIC_PASSWORD")),
 	)
 	if err != nil {

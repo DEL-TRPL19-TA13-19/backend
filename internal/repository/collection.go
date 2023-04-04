@@ -8,9 +8,10 @@ import (
 )
 
 type CollectionRepository interface {
-	FindAll(ctx context.Context) (*[]entity.CollectionEntityModel, error)
+	FindAll(ctx context.Context) ([]entity.CollectionEntityModel, error)
+	FindAlternatives(ctx context.Context, id *string) ([]entity.AlternativeEntityModel, error)
 	FindByID(ctx context.Context, id *string) (*entity.CollectionEntityModel, error)
-	FindByUserID(ctx context.Context, userID *string) (*[]entity.CollectionEntityModel, error)
+	FindByUserID(ctx context.Context, userID *string) ([]entity.CollectionEntityModel, error)
 	Create(ctx context.Context, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
 	Update(ctx context.Context, id *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
 	Delete(ctx context.Context, id *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
@@ -28,16 +29,28 @@ func NewCollection(db *gorm.DB) *collection {
 	}
 }
 
-func (c *collection) FindAll(ctx context.Context) (*[]entity.CollectionEntityModel, error) {
+func (c *collection) FindAll(ctx context.Context) ([]entity.CollectionEntityModel, error) {
 	var datas []entity.CollectionEntityModel
 
 	err := c.Db.Find(&datas).WithContext(ctx).Error
 
 	if err != nil {
-		return &datas, err
+		return datas, err
 	}
-	return &datas, nil
+	return datas, nil
 
+}
+
+func (c *collection) FindAlternatives(ctx context.Context, id *string) ([]entity.AlternativeEntityModel, error) {
+	var datas []entity.AlternativeEntityModel
+
+	err := c.Db.Where("collection_id = ?", id).Find(&datas).WithContext(ctx).Error
+
+	if err != nil {
+		return datas, err
+	}
+
+	return datas, nil
 }
 
 func (c *collection) FindByID(ctx context.Context, id *string) (*entity.CollectionEntityModel, error) {
@@ -54,19 +67,20 @@ func (c *collection) FindByID(ctx context.Context, id *string) (*entity.Collecti
 	return &data, nil
 }
 
-func (c *collection) FindByUserID(ctx context.Context, userID *string) (*[]entity.CollectionEntityModel, error) {
+func (c *collection) FindByUserID(ctx context.Context, userID *string) ([]entity.CollectionEntityModel, error) {
 
 	var datas []entity.CollectionEntityModel
 
 	//err := conn.Preload("Users").Find(&datas).
+
 	err := c.Db.Where("user_id = ?", userID).Find(&datas).
 		WithContext(ctx).Error
 
 	if err != nil {
-		return nil, err
+		return datas, err
 	}
 
-	return &datas, nil
+	return datas, nil
 }
 
 func (c *collection) Create(ctx context.Context, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error) {

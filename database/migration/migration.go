@@ -28,6 +28,7 @@ func Init() {
 				&entity.TpsEntityModel{},
 				&entity.CollectionEntityModel{},
 				&entity.AlternativeEntityModel{},
+				//&entity.ResultEntityModel{},
 			},
 			IsAutoMigrate: true,
 		},

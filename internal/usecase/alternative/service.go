@@ -15,9 +15,9 @@ import (
 )
 
 type Service interface {
-	FindAll(ctx context.Context) (*dto.AlternativesGetResponse, error)
+	FindAll(ctx context.Context) ([]entity.AlternativeEntityModel, error)
 	FindByID(ctx context.Context, payload *dto.AlternativeGetByIDRequest) (*dto.AlternativeGetByIDResponse, error)
-	FindByCollectionID(ctx context.Context, payload *dto.AlternativeGetByCollectionIDRequest) (*dto.AlternativeGetByCollectionIDResponse, error)
+	FindByCollectionID(ctx context.Context, payload *dto.AlternativeGetByCollectionIDRequest) ([]entity.AlternativeEntityModel, error)
 	Create(ctx context.Context, payload *dto.AlternativeCreateRequest) (*dto.AlternativeCreateResponse, error)
 	Update(ctx context.Context, payload *dto.AlternativeUpdateRequest) (*dto.AlternativeUpdateResponse, error)
 	Delete(ctx context.Context, payload *dto.AlternativeDeleteRequest) (*dto.AlternativeDeleteResponse, error)
@@ -34,23 +34,19 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) FindAll(ctx context.Context) (*dto.AlternativesGetResponse, error) {
-	var result *dto.AlternativesGetResponse
+func (s *service) FindAll(ctx context.Context) ([]entity.AlternativeEntityModel, error) {
+	datas := make([]entity.AlternativeEntityModel, 0)
 
-	datas, err := s.Repository.FindAll(ctx)
+	datas, err = s.Repository.FindAll(ctx)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+			return datas, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
-		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	result = &dto.AlternativesGetResponse{
-		Datas: *datas,
-	}
-
-	return result, nil
+	return datas, nil
 }
 
 func (s *service) FindByID(ctx context.Context, payload *dto.AlternativeGetByIDRequest) (*dto.AlternativeGetByIDResponse, error) {
@@ -72,23 +68,19 @@ func (s *service) FindByID(ctx context.Context, payload *dto.AlternativeGetByIDR
 	return result, nil
 }
 
-func (s *service) FindByCollectionID(ctx context.Context, payload *dto.AlternativeGetByCollectionIDRequest) (*dto.AlternativeGetByCollectionIDResponse, error) {
-	var result *dto.AlternativeGetByCollectionIDResponse
+func (s *service) FindByCollectionID(ctx context.Context, payload *dto.AlternativeGetByCollectionIDRequest) ([]entity.AlternativeEntityModel, error) {
+	datas := make([]entity.AlternativeEntityModel, 0)
 
-	data, err := s.Repository.FindByCollectionID(ctx, &payload.CollectionID)
+	datas, err = s.Repository.FindByCollectionID(ctx, &payload.CollectionID)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return result, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+			return datas, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 		}
-		return result, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
-	result = &dto.AlternativeGetByCollectionIDResponse{
-		Datas: *data,
-	}
-
-	return result, nil
+	return datas, nil
 }
 
 func (s *service) Create(ctx context.Context, payload *dto.AlternativeCreateRequest) (*dto.AlternativeCreateResponse, error) {
