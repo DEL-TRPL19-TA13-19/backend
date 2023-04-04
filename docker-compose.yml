@@ -23,7 +23,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./.env.prod:/app/.env.prod
+      - ./.env.production:/app/.env.production
     restart: always
     entrypoint: bash -c "ENV=PROD ./application"
 networks:
