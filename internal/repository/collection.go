@@ -44,7 +44,7 @@ func (c *collection) FindAll(ctx context.Context) ([]entity.CollectionEntityMode
 func (c *collection) FindAlternatives(ctx context.Context, id *string) ([]entity.AlternativeEntityModel, error) {
 	var datas []entity.AlternativeEntityModel
 
-	err := c.Db.Where("id = ?", id).Find(&datas).WithContext(ctx).Error
+	err := c.Db.Where("collection_id = ?", id).Find(&datas).WithContext(ctx).Error
 
 	if err != nil {
 		return datas, err
@@ -72,6 +72,7 @@ func (c *collection) FindByUserID(ctx context.Context, userID *string) ([]entity
 	var datas []entity.CollectionEntityModel
 
 	//err := conn.Preload("Users").Find(&datas).
+
 	err := c.Db.Where("user_id = ?", userID).Find(&datas).
 		WithContext(ctx).Error
 

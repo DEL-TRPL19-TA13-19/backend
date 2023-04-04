@@ -17,28 +17,46 @@ definitions:
     type: object
   dto.AlternativeCreateRequest:
     properties:
-      Aksesibilitas:
+      aksesibilitas:
+        example: Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah
+        type: string
+      cakupan_rumah:
+        example: <40 Rumah
         type: string
       collection_id:
         type: string
-      estetika:
+      jarak_pemukiman:
+        example: 0m-100m
         type: string
-      jarak-tps:
+      jarak_sungai:
+        example: Lokasi memenuhi peil banjir
         type: string
       jarak_tpa:
+        example: Alternatif berada di jangkauan layanan TPA
         type: string
-      jumlah_penduduk:
-        type: string
-      lokasi:
+      kondisi_tanah:
+        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
+          air
         type: string
       nama:
+        example: nama
         type: string
+      partisipasi_masyarakat:
+        example: < 20% Masyarakat Setuju
+        type: string
+      sort:
+        type: integer
       timbulan_sampah:
+        example: Jaringan Jalan
         type: string
     type: object
   dto.AlternativeCreateResponse:
     properties:
-      Aksesibilitas:
+      aksesibilitas:
+        example: Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah
+        type: string
+      cakupan_rumah:
+        example: <40 Rumah
         type: string
       collection_id:
         type: string
@@ -46,25 +64,35 @@ definitions:
         type: string
       created_by:
         type: string
-      estetika:
-        type: string
       id:
         type: string
-      jarak-tps:
+      jarak_pemukiman:
+        example: 0m-100m
+        type: string
+      jarak_sungai:
+        example: Lokasi memenuhi peil banjir
         type: string
       jarak_tpa:
+        example: Alternatif berada di jangkauan layanan TPA
         type: string
-      jumlah_penduduk:
-        type: string
-      lokasi:
+      kondisi_tanah:
+        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
+          air
         type: string
       modified_at:
         type: string
       modified_by:
         type: string
       nama:
+        example: nama
         type: string
+      partisipasi_masyarakat:
+        example: < 20% Masyarakat Setuju
+        type: string
+      sort:
+        type: integer
       timbulan_sampah:
+        example: Jaringan Jalan
         type: string
     type: object
   dto.AlternativeCreateResponseDoc:
@@ -126,30 +154,48 @@ definitions:
     type: object
   dto.AlternativeUpdateRequest:
     properties:
-      Aksesibilitas:
+      aksesibilitas:
+        example: Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah
         type: string
-      estetika:
+      cakupan_rumah:
+        example: <40 Rumah
         type: string
       id:
         type: string
-      jarak-tps:
+      jarak_pemukiman:
+        example: 0m-100m
+        type: string
+      jarak_sungai:
+        example: Lokasi memenuhi peil banjir
         type: string
       jarak_tpa:
+        example: Alternatif berada di jangkauan layanan TPA
         type: string
-      jumlah_penduduk:
-        type: string
-      lokasi:
+      kondisi_tanah:
+        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
+          air
         type: string
       nama:
+        example: nama
         type: string
+      partisipasi_masyarakat:
+        example: < 20% Masyarakat Setuju
+        type: string
+      sort:
+        type: integer
       timbulan_sampah:
+        example: Jaringan Jalan
         type: string
     required:
     - id
     type: object
   dto.AlternativeUpdateResponse:
     properties:
-      Aksesibilitas:
+      aksesibilitas:
+        example: Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah
+        type: string
+      cakupan_rumah:
+        example: <40 Rumah
         type: string
       collection_id:
         type: string
@@ -157,25 +203,35 @@ definitions:
         type: string
       created_by:
         type: string
-      estetika:
-        type: string
       id:
         type: string
-      jarak-tps:
+      jarak_pemukiman:
+        example: 0m-100m
+        type: string
+      jarak_sungai:
+        example: Lokasi memenuhi peil banjir
         type: string
       jarak_tpa:
+        example: Alternatif berada di jangkauan layanan TPA
         type: string
-      jumlah_penduduk:
-        type: string
-      lokasi:
+      kondisi_tanah:
+        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
+          air
         type: string
       modified_at:
         type: string
       modified_by:
         type: string
       nama:
+        example: nama
         type: string
+      partisipasi_masyarakat:
+        example: < 20% Masyarakat Setuju
+        type: string
+      sort:
+        type: integer
       timbulan_sampah:
+        example: Jaringan Jalan
         type: string
     type: object
   dto.AlternativeUpdateResponseDoc:
@@ -656,7 +712,11 @@ definitions:
     type: object
   entity.AlternativeEntityModel:
     properties:
-      Aksesibilitas:
+      aksesibilitas:
+        example: Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah
+        type: string
+      cakupan_rumah:
+        example: <40 Rumah
         type: string
       collection_id:
         type: string
@@ -664,25 +724,35 @@ definitions:
         type: string
       created_by:
         type: string
-      estetika:
-        type: string
       id:
         type: string
-      jarak-tps:
+      jarak_pemukiman:
+        example: 0m-100m
+        type: string
+      jarak_sungai:
+        example: Lokasi memenuhi peil banjir
         type: string
       jarak_tpa:
+        example: Alternatif berada di jangkauan layanan TPA
         type: string
-      jumlah_penduduk:
-        type: string
-      lokasi:
+      kondisi_tanah:
+        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
+          air
         type: string
       modified_at:
         type: string
       modified_by:
         type: string
       nama:
+        example: nama
         type: string
+      partisipasi_masyarakat:
+        example: < 20% Masyarakat Setuju
+        type: string
+      sort:
+        type: integer
       timbulan_sampah:
+        example: Jaringan Jalan
         type: string
     type: object
   entity.CollectionEntityModel:
@@ -1210,7 +1280,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: CalculateA HP
+      summary: Calculate AHP
       tags:
       - collection
   /collection/user/{user_id}:

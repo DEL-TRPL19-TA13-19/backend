@@ -202,7 +202,7 @@ func (h *handler) Delete(c echo.Context) error {
 }
 
 // CalculateAHP
-// @Summary CalculateA HP
+// @Summary Calculate AHP
 // @Description Calculate AHP
 // @Tags collection
 // @Accept json
@@ -226,7 +226,7 @@ func (h *handler) CalculateAHP(c echo.Context) error {
 
 	fmt.Printf("%+v", payload)
 
-	result, err := h.service.FindByID(ctx, payload)
+	result, err := h.service.CalculateAHP(ctx, payload)
 	if err != nil {
 		return response.ErrorResponse(err).Send(c)
 	}

@@ -12,7 +12,7 @@ func (h *handler) Route(g *echo.Group) {
 
 			// DO PROCESS jwt decode
 			// GET USER ID then set
-			ctx := context.WithValue(c.Request().Context(), "user", "77ef1362-3a88-4097-877f-25ce394365b2")
+			ctx := context.WithValue(c.Request().Context(), "user", "186d3884-7250-45da-a3db-2289987bf8c2")
 			c.SetRequest(c.Request().WithContext(ctx))
 			return next(c)
 		}

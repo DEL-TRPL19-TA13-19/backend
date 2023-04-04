@@ -9,8 +9,9 @@ import (
 )
 
 type CollectionEntity struct {
-	Nama      string `json:"nama" example:"Mencari lokasi TPS di balige"`
-	Deskripsi string `json:"deskripsi"`
+	Nama         string `json:"nama" example:"Mencari lokasi TPS di balige"`
+	Deskripsi    string `json:"deskripsi"`
+	isCalculated bool   `json:"is_calculated"`
 }
 
 type CollectionEntityModel struct {
@@ -18,7 +19,6 @@ type CollectionEntityModel struct {
 	CollectionEntity
 	Alternatives []AlternativeEntityModel `json:"alternatives" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
 	UserID       uuid.UUID                `json:"user_id" gorm:"size:191"`
-	//Context      *abstraction.Context     `json:"-" gorm:"-"`
 }
 
 func (CollectionEntityModel) TableName() string {

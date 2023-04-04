@@ -561,7 +561,7 @@ const docTemplate = `{
                 "tags": [
                     "collection"
                 ],
-                "summary": "CalculateA HP",
+                "summary": "Calculate AHP",
                 "parameters": [
                     {
                         "type": "string",
@@ -1014,40 +1014,60 @@ const docTemplate = `{
         "dto.AlternativeCreateRequest": {
             "type": "object",
             "properties": {
-                "Aksesibilitas": {
-                    "type": "string"
+                "aksesibilitas": {
+                    "type": "string",
+                    "example": "Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah"
+                },
+                "cakupan_rumah": {
+                    "type": "string",
+                    "example": "\u003c40 Rumah"
                 },
                 "collection_id": {
                     "type": "string"
                 },
-                "estetika": {
-                    "type": "string"
+                "jarak_pemukiman": {
+                    "type": "string",
+                    "example": "0m-100m"
                 },
-                "jarak-tps": {
-                    "type": "string"
+                "jarak_sungai": {
+                    "type": "string",
+                    "example": "Lokasi memenuhi peil banjir"
                 },
                 "jarak_tpa": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "jumlah_penduduk": {
-                    "type": "string"
-                },
-                "lokasi": {
-                    "type": "string"
+                "kondisi_tanah": {
+                    "type": "string",
+                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "nama": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nama"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "string",
+                    "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "sort": {
+                    "type": "integer"
                 },
                 "timbulan_sampah": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jaringan Jalan"
                 }
             }
         },
         "dto.AlternativeCreateResponse": {
             "type": "object",
             "properties": {
-                "Aksesibilitas": {
-                    "type": "string"
+                "aksesibilitas": {
+                    "type": "string",
+                    "example": "Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah"
+                },
+                "cakupan_rumah": {
+                    "type": "string",
+                    "example": "\u003c40 Rumah"
                 },
                 "collection_id": {
                     "type": "string"
@@ -1058,23 +1078,24 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
-                "estetika": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
-                "jarak-tps": {
-                    "type": "string"
+                "jarak_pemukiman": {
+                    "type": "string",
+                    "example": "0m-100m"
+                },
+                "jarak_sungai": {
+                    "type": "string",
+                    "example": "Lokasi memenuhi peil banjir"
                 },
                 "jarak_tpa": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "jumlah_penduduk": {
-                    "type": "string"
-                },
-                "lokasi": {
-                    "type": "string"
+                "kondisi_tanah": {
+                    "type": "string",
+                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1083,10 +1104,19 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "nama": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nama"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "string",
+                    "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "sort": {
+                    "type": "integer"
                 },
                 "timbulan_sampah": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jaringan Jalan"
                 }
             }
         },
@@ -1187,40 +1217,60 @@ const docTemplate = `{
                 "id"
             ],
             "properties": {
-                "Aksesibilitas": {
-                    "type": "string"
+                "aksesibilitas": {
+                    "type": "string",
+                    "example": "Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah"
                 },
-                "estetika": {
-                    "type": "string"
+                "cakupan_rumah": {
+                    "type": "string",
+                    "example": "\u003c40 Rumah"
                 },
                 "id": {
                     "type": "string"
                 },
-                "jarak-tps": {
-                    "type": "string"
+                "jarak_pemukiman": {
+                    "type": "string",
+                    "example": "0m-100m"
+                },
+                "jarak_sungai": {
+                    "type": "string",
+                    "example": "Lokasi memenuhi peil banjir"
                 },
                 "jarak_tpa": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "jumlah_penduduk": {
-                    "type": "string"
-                },
-                "lokasi": {
-                    "type": "string"
+                "kondisi_tanah": {
+                    "type": "string",
+                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "nama": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nama"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "string",
+                    "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "sort": {
+                    "type": "integer"
                 },
                 "timbulan_sampah": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jaringan Jalan"
                 }
             }
         },
         "dto.AlternativeUpdateResponse": {
             "type": "object",
             "properties": {
-                "Aksesibilitas": {
-                    "type": "string"
+                "aksesibilitas": {
+                    "type": "string",
+                    "example": "Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah"
+                },
+                "cakupan_rumah": {
+                    "type": "string",
+                    "example": "\u003c40 Rumah"
                 },
                 "collection_id": {
                     "type": "string"
@@ -1231,23 +1281,24 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
-                "estetika": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
-                "jarak-tps": {
-                    "type": "string"
+                "jarak_pemukiman": {
+                    "type": "string",
+                    "example": "0m-100m"
+                },
+                "jarak_sungai": {
+                    "type": "string",
+                    "example": "Lokasi memenuhi peil banjir"
                 },
                 "jarak_tpa": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "jumlah_penduduk": {
-                    "type": "string"
-                },
-                "lokasi": {
-                    "type": "string"
+                "kondisi_tanah": {
+                    "type": "string",
+                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1256,10 +1307,19 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "nama": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nama"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "string",
+                    "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "sort": {
+                    "type": "integer"
                 },
                 "timbulan_sampah": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jaringan Jalan"
                 }
             }
         },
@@ -1989,8 +2049,13 @@ const docTemplate = `{
         "entity.AlternativeEntityModel": {
             "type": "object",
             "properties": {
-                "Aksesibilitas": {
-                    "type": "string"
+                "aksesibilitas": {
+                    "type": "string",
+                    "example": "Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah"
+                },
+                "cakupan_rumah": {
+                    "type": "string",
+                    "example": "\u003c40 Rumah"
                 },
                 "collection_id": {
                     "type": "string"
@@ -2001,23 +2066,24 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
-                "estetika": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },
-                "jarak-tps": {
-                    "type": "string"
+                "jarak_pemukiman": {
+                    "type": "string",
+                    "example": "0m-100m"
+                },
+                "jarak_sungai": {
+                    "type": "string",
+                    "example": "Lokasi memenuhi peil banjir"
                 },
                 "jarak_tpa": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "jumlah_penduduk": {
-                    "type": "string"
-                },
-                "lokasi": {
-                    "type": "string"
+                "kondisi_tanah": {
+                    "type": "string",
+                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "modified_at": {
                     "type": "string"
@@ -2026,10 +2092,19 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "nama": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "nama"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "string",
+                    "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "sort": {
+                    "type": "integer"
                 },
                 "timbulan_sampah": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jaringan Jalan"
                 }
             }
         },
