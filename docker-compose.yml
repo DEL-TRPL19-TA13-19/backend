@@ -25,7 +25,7 @@ services:
     volumes:
       - ./.env.prod:/app/.env.prod
     restart: always
-    entrypoint: bash -c "ENV=DEV ./application"
+    entrypoint: bash -c "ENV=PROD ./application"
 networks:
   ta3-networks:
 volumes:
