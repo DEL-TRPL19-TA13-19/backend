@@ -826,7 +826,6 @@ definitions:
       meta:
         $ref: '#/definitions/response.Meta'
     type: object
-host: localhost:6900
 info:
   contact: {}
   description: Dokumentasi API D4 TRPL 2019 TA13.

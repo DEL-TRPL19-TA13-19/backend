@@ -24,7 +24,6 @@ func init() {
 // @title API TA
 // @version 1.0
 // @description Dokumentasi API D4 TRPL 2019 TA13.
-// @host localhost:6900
 // @BasePath /
 func main() {
 	db.Init()
