@@ -1549,6 +1549,9 @@
                 "deskripsi": {
                     "type": "string"
                 },
+                "is_calculated": {
+                    "type": "boolean"
+                },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
@@ -1575,6 +1578,9 @@
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_calculated": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1667,6 +1673,9 @@
                 "id": {
                     "type": "string"
                 },
+                "is_calculated": {
+                    "type": "boolean"
+                },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
@@ -1693,6 +1702,9 @@
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_calculated": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -2121,6 +2133,9 @@
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_calculated": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
