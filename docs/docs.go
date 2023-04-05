@@ -1556,6 +1556,9 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "is_calculated": {
+                    "type": "boolean"
+                },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
@@ -1582,6 +1585,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_calculated": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1674,6 +1680,9 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
+                "is_calculated": {
+                    "type": "boolean"
+                },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
@@ -1700,6 +1709,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_calculated": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -2128,6 +2140,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
+                },
+                "is_calculated": {
+                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"

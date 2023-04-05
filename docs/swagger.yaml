@@ -393,6 +393,8 @@ definitions:
     properties:
       deskripsi:
         type: string
+      is_calculated:
+        type: boolean
       nama:
         example: Mencari lokasi TPS di balige
         type: string
@@ -411,6 +413,8 @@ definitions:
         type: string
       id:
         type: string
+      is_calculated:
+        type: boolean
       modified_at:
         type: string
       modified_by:
@@ -467,6 +471,8 @@ definitions:
         type: string
       id:
         type: string
+      is_calculated:
+        type: boolean
       nama:
         example: Mencari lokasi TPS di balige
         type: string
@@ -487,6 +493,8 @@ definitions:
         type: string
       id:
         type: string
+      is_calculated:
+        type: boolean
       modified_at:
         type: string
       modified_by:
@@ -769,6 +777,8 @@ definitions:
         type: string
       id:
         type: string
+      is_calculated:
+        type: boolean
       modified_at:
         type: string
       modified_by:
