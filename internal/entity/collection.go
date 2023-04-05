@@ -11,7 +11,7 @@ import (
 type CollectionEntity struct {
 	Nama         string `json:"nama" example:"Mencari lokasi TPS di balige"`
 	Deskripsi    string `json:"deskripsi"`
-	isCalculated bool   `json:"is_calculated"`
+	IsCalculated bool   `json:"is_calculated"`
 }
 
 type CollectionEntityModel struct {
