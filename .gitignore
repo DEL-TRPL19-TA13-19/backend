@@ -34,7 +34,7 @@
 
 .idea/
 
-.env
+.env.development
 .env.prod
 .env.production
 
