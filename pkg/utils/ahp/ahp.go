@@ -73,6 +73,6 @@ func AksesibilitasSubCriteria() map[string]float64 {
 	return map[string]float64{
 		"Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah":                                                                                    0.669,
 		"Kondisi jalan bagus, tetapi tidak bisa dilewati kendaraan pengangkut sampah atau jalan tidak bagus, tetapi bisa dilewati kendaraan pengangkut sampah": 0.267,
-		"Kondisi jalan tidak bagus dan tidak bisa dilewati kendaraan pengangkut sampah.":                                                                       0.064,
+		"Kondisi jalan tidak bagus dan tidak bisa dilewati kendaraan pengangkut sampah":                                                                        0.064,
 	}
 }
