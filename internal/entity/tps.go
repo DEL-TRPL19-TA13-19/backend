@@ -26,7 +26,6 @@ type TpsFilter struct {
 type TpsEntityModel struct {
 	abstraction.Entity
 	TpsEntity
-	//Context *abstraction.Context `json:"-" gorm:"-"`
 }
 
 type TpsFilterModel struct {

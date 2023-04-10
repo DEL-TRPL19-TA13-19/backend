@@ -20,7 +20,6 @@ type UserEntityModel struct {
 	abstraction.Entity
 	UserEntity
 	Collections []CollectionEntityModel `json:"collections" gorm:"foreignKey:UserID"`
-	//Context     *abstraction.Context    `json:"-" gorm:"-"`
 }
 
 func (UserEntityModel) TableName() string {

@@ -9,6 +9,7 @@ import (
 	"ta13-svc/docs"
 	_ "ta13-svc/docs"
 	"ta13-svc/internal/factory"
+	"ta13-svc/internal/usecase/ahp"
 	"ta13-svc/internal/usecase/alternative"
 	"ta13-svc/internal/usecase/auth"
 	"ta13-svc/internal/usecase/collection"
@@ -29,4 +30,5 @@ func Init(e *echo.Echo, f *factory.Factory) {
 	tps.NewHandler(f).Route(e.Group("/tps"))
 	collection.NewHandler(f).Route(e.Group("/collection"))
 	alternative.NewHandler(f).Route(e.Group("/alternative"))
+	ahp.NewHandler(f).Route(e.Group("ahp"))
 }

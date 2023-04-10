@@ -64,6 +64,8 @@ definitions:
         type: string
       created_by:
         type: string
+      final_scores:
+        $ref: '#/definitions/entity.FinalScoreEntityModel'
       id:
         type: string
       jarak_pemukiman:
@@ -89,6 +91,8 @@ definitions:
       partisipasi_masyarakat:
         example: < 20% Masyarakat Setuju
         type: string
+      scores:
+        $ref: '#/definitions/entity.ScoreEntityModel'
       sort:
         type: integer
       timbulan_sampah:
@@ -203,6 +207,8 @@ definitions:
         type: string
       created_by:
         type: string
+      final_scores:
+        $ref: '#/definitions/entity.FinalScoreEntityModel'
       id:
         type: string
       jarak_pemukiman:
@@ -228,6 +234,8 @@ definitions:
       partisipasi_masyarakat:
         example: < 20% Masyarakat Setuju
         type: string
+      scores:
+        $ref: '#/definitions/entity.ScoreEntityModel'
       sort:
         type: integer
       timbulan_sampah:
@@ -411,6 +419,10 @@ definitions:
         type: string
       deskripsi:
         type: string
+      final_scores:
+        items:
+          $ref: '#/definitions/entity.FinalScoreEntityModel'
+        type: array
       id:
         type: string
       is_calculated:
@@ -422,6 +434,10 @@ definitions:
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      scores:
+        items:
+          $ref: '#/definitions/entity.ScoreEntityModel'
+        type: array
       user_id:
         type: string
     type: object
@@ -491,6 +507,10 @@ definitions:
         type: string
       deskripsi:
         type: string
+      final_scores:
+        items:
+          $ref: '#/definitions/entity.FinalScoreEntityModel'
+        type: array
       id:
         type: string
       is_calculated:
@@ -502,6 +522,10 @@ definitions:
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      scores:
+        items:
+          $ref: '#/definitions/entity.ScoreEntityModel'
+        type: array
       user_id:
         type: string
     type: object
@@ -732,6 +756,8 @@ definitions:
         type: string
       created_by:
         type: string
+      final_scores:
+        $ref: '#/definitions/entity.FinalScoreEntityModel'
       id:
         type: string
       jarak_pemukiman:
@@ -757,6 +783,8 @@ definitions:
       partisipasi_masyarakat:
         example: < 20% Masyarakat Setuju
         type: string
+      scores:
+        $ref: '#/definitions/entity.ScoreEntityModel'
       sort:
         type: integer
       timbulan_sampah:
@@ -775,6 +803,10 @@ definitions:
         type: string
       deskripsi:
         type: string
+      final_scores:
+        items:
+          $ref: '#/definitions/entity.FinalScoreEntityModel'
+        type: array
       id:
         type: string
       is_calculated:
@@ -786,8 +818,66 @@ definitions:
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      scores:
+        items:
+          $ref: '#/definitions/entity.ScoreEntityModel'
+        type: array
       user_id:
         type: string
+    type: object
+  entity.FinalScoreEntityModel:
+    properties:
+      alternative_id:
+        type: string
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      final_score:
+        type: number
+      id:
+        type: string
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      rank:
+        type: integer
+    type: object
+  entity.ScoreEntityModel:
+    properties:
+      aksesibilitas:
+        type: number
+      alternative_id:
+        type: string
+      cakupan_rumah:
+        type: number
+      collection_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      id:
+        type: string
+      jarak_pemukiman:
+        type: number
+      jarak_sungai:
+        type: number
+      jarak_tpa:
+        type: number
+      kondisi_tanah:
+        type: number
+      modified_at:
+        type: string
+      modified_by:
+        type: string
+      partisipasi_masyarakat:
+        type: number
+      timbulan_sampah:
+        type: number
     type: object
   entity.TpsEntityModel:
     properties:
@@ -842,6 +932,87 @@ info:
   title: API TA
   version: "1.0"
 paths:
+  /ahp/criteria:
+    get:
+      consumes:
+      - application/json
+      description: Get ALl Criteria Alternative
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get All Criteria Alternative
+      tags:
+      - AHP
+  /ahp/finalscores/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Final Scores by Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Final Scores by Collection ID
+      tags:
+      - AHP
+  /ahp/scores/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Scores by Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Get Scores by Collection ID
+      tags:
+      - AHP
   /alternative:
     get:
       consumes:
@@ -1257,39 +1428,6 @@ paths:
           schema:
             $ref: '#/definitions/response.errorResponse'
       summary: Get Collection By CollectionID
-      tags:
-      - collection
-  /collection/ahp/{id}:
-    get:
-      consumes:
-      - application/json
-      description: Calculate AHP
-      parameters:
-      - description: id path
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.CollectionGetByIDResponseDoc'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/response.errorResponse'
-      summary: Calculate AHP
       tags:
       - collection
   /collection/user/{user_id}:

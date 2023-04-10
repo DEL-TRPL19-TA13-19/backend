@@ -12,6 +12,7 @@ type Factory struct {
 	TpsRepository         repository.TpsRepository
 	CollectionRepository  repository.CollectionRepository
 	AlternativeRepository repository.AlternativeRepository
+	AHPRepository         repository.AhpRepository
 }
 
 func NewFactory() *Factory {
@@ -48,4 +49,5 @@ func (f *Factory) SetupRepository() {
 	f.TpsRepository = repository.NewTps(f.Db)
 	f.CollectionRepository = repository.NewCollection(f.Db)
 	f.AlternativeRepository = repository.NewAlternative(f.Db)
+	f.AHPRepository = repository.NewAHP(f.Db)
 }
