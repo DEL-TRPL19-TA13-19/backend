@@ -41,7 +41,7 @@ func NewService(f *factory.Factory) *service {
 func (s *service) FindCriteriaAlternative(ctx context.Context) (*CriteriaData, error) {
 	var result *CriteriaData
 
-	jsonFile, err := os.ReadFile("./internal/usecase/collection/pairwise.json")
+	jsonFile, err := os.ReadFile("./internal/usecase/ahp/pairwise.json")
 	if err != nil {
 		fmt.Println(err)
 	}
