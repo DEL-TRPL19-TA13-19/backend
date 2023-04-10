@@ -18,6 +18,8 @@ type CollectionEntityModel struct {
 	abstraction.Entity
 	CollectionEntity
 	Alternatives []AlternativeEntityModel `json:"alternatives" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
+	Scores       []ScoreEntityModel       `json:"scores" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
+	FinalScores  []FinalScoreEntityModel  `json:"final_scores" gorm:"foreignKey:CollectionID;constraint:OnDelete:CASCADE;"`
 	UserID       uuid.UUID                `json:"user_id" gorm:"size:191"`
 }
 

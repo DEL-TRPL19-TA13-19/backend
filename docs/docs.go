@@ -15,6 +15,129 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ahp/criteria": {
+            "get": {
+                "description": "Get ALl Criteria Alternative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Get All Criteria Alternative",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/finalscores/{collection_id}": {
+            "get": {
+                "description": "Get Final Scores by Collection ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Get Final Scores by Collection ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection_id path",
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/scores/{collection_id}": {
+            "get": {
+                "description": "Get Scores by Collection ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Get Scores by Collection ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection_id path",
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/alternative": {
             "get": {
                 "description": "Get All Alternatives",
@@ -549,56 +672,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/collection/ahp/{id}": {
-            "get": {
-                "description": "Calculate AHP",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "collection"
-                ],
-                "summary": "Calculate AHP",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "id path",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.CollectionGetByIDResponseDoc"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/response.errorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/collection/user/{user_id}": {
             "get": {
                 "description": "Get Collection By UserID",
@@ -1078,6 +1151,9 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
+                "final_scores": {
+                    "$ref": "#/definitions/entity.FinalScoreEntityModel"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1110,6 +1186,9 @@ const docTemplate = `{
                 "partisipasi_masyarakat": {
                     "type": "string",
                     "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "scores": {
+                    "$ref": "#/definitions/entity.ScoreEntityModel"
                 },
                 "sort": {
                     "type": "integer"
@@ -1281,6 +1360,9 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
+                "final_scores": {
+                    "$ref": "#/definitions/entity.FinalScoreEntityModel"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1313,6 +1395,9 @@ const docTemplate = `{
                 "partisipasi_masyarakat": {
                     "type": "string",
                     "example": "\u003c 20% Masyarakat Setuju"
+                },
+                "scores": {
+                    "$ref": "#/definitions/entity.ScoreEntityModel"
                 },
                 "sort": {
                     "type": "integer"
@@ -1583,6 +1668,12 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.FinalScoreEntityModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1598,6 +1689,12 @@ const docTemplate = `{
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.ScoreEntityModel"
+                    }
                 },
                 "user_id": {
                     "type": "string"
@@ -1707,6 +1804,12 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.FinalScoreEntityModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1722,6 +1825,12 @@ const docTemplate = `{
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.ScoreEntityModel"
+                    }
                 },
                 "user_id": {
                     "type": "string"
@@ -2078,6 +2187,9 @@ const docTemplate = `{
                 "created_by": {
                     "type": "string"
                 },
+                "final_scores": {
+                    "$ref": "#/definitions/entity.FinalScoreEntityModel"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -2111,6 +2223,9 @@ const docTemplate = `{
                     "type": "string",
                     "example": "\u003c 20% Masyarakat Setuju"
                 },
+                "scores": {
+                    "$ref": "#/definitions/entity.ScoreEntityModel"
+                },
                 "sort": {
                     "type": "integer"
                 },
@@ -2138,6 +2253,12 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.FinalScoreEntityModel"
+                    }
+                },
                 "id": {
                     "type": "string"
                 },
@@ -2154,8 +2275,96 @@ const docTemplate = `{
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
                 },
+                "scores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.ScoreEntityModel"
+                    }
+                },
                 "user_id": {
                     "type": "string"
+                }
+            }
+        },
+        "entity.FinalScoreEntityModel": {
+            "type": "object",
+            "properties": {
+                "alternative_id": {
+                    "type": "string"
+                },
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "final_score": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "rank": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.ScoreEntityModel": {
+            "type": "object",
+            "properties": {
+                "aksesibilitas": {
+                    "type": "number"
+                },
+                "alternative_id": {
+                    "type": "string"
+                },
+                "cakupan_rumah": {
+                    "type": "number"
+                },
+                "collection_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "jarak_pemukiman": {
+                    "type": "number"
+                },
+                "jarak_sungai": {
+                    "type": "number"
+                },
+                "jarak_tpa": {
+                    "type": "number"
+                },
+                "kondisi_tanah": {
+                    "type": "number"
+                },
+                "modified_at": {
+                    "type": "string"
+                },
+                "modified_by": {
+                    "type": "string"
+                },
+                "partisipasi_masyarakat": {
+                    "type": "number"
+                },
+                "timbulan_sampah": {
+                    "type": "number"
                 }
             }
         },

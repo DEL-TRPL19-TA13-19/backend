@@ -23,5 +23,4 @@ func (h *handler) Route(g *echo.Group) {
 	g.POST("", h.Create)
 	g.PATCH("", h.Update)
 	g.DELETE("/:id", h.Delete)
-	g.GET("/ahp/:id", h.CalculateAHP)
 }

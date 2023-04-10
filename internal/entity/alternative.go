@@ -17,25 +17,15 @@ type AlternativeEntity struct {
 	PartisipasiMasyarakat string `json:"partisipasi_masyarakat" example:"< 20% Masyarakat Setuju"`
 	CakupanRumah          string `json:"cakupan_rumah" example:"<40 Rumah"`
 	Aksesibilitas         string `json:"aksesibilitas" example:"Kondisi jalan bagus dan bisa dilewati kendaraan pengangkut sampah"`
-	Sort                  int8   `json:"sort"swag`
-}
-
-type AlternativeScores struct {
-	TimbulanSampah        float64
-	JarakTpa              float64
-	KondisiTanah          float64
-	JarakPemukiman        float64
-	JarakSungai           float64
-	PartisipasiMasyarakat float64
-	CakupanRumah          float64
-	Aksesibilitas         float64
+	Sort                  int8   `json:"sort"`
 }
 
 type AlternativeEntityModel struct {
 	abstraction.Entity
 	AlternativeEntity
-	CollectionID string `json:"collection_id" gorm:"size:191"`
-	//Context      *abstraction.Context `json:"-" gorm:"-"`
+	CollectionID          string                `json:"collection_id" gorm:"size:191"`
+	ScoreEntityModel      ScoreEntityModel      `json:"scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
+	FinalScoreEntityModel FinalScoreEntityModel `json:"final_scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
 }
 
 func (AlternativeEntityModel) TableName() string {

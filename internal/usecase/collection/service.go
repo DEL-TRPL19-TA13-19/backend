@@ -43,7 +43,6 @@ func (s *service) FindAll(ctx context.Context) ([]entity.CollectionEntityModel, 
 	datas := make([]entity.CollectionEntityModel, 0)
 
 	datas, err = s.Repository.FindAll(ctx)
-
 	if err != nil {
 		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
