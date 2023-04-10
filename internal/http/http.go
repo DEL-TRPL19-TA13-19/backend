@@ -30,5 +30,5 @@ func Init(e *echo.Echo, f *factory.Factory) {
 	tps.NewHandler(f).Route(e.Group("/tps"))
 	collection.NewHandler(f).Route(e.Group("/collection"))
 	alternative.NewHandler(f).Route(e.Group("/alternative"))
-	ahp.NewHandler(f).Route(e.Group("ahp"))
+	ahp.NewHandler(f).Route(e.Group("/ahp"))
 }
