@@ -11,7 +11,6 @@ type AlternativeEntity struct {
 	Nama                  string `json:"nama" example:"nama"`
 	TimbulanSampah        string `json:"timbulan_sampah" example:"Jaringan Jalan"`
 	JarakTpa              string `json:"jarak_tpa" example:"Alternatif berada di jangkauan layanan TPA"`
-	KondisiTanah          string `json:"kondisi_tanah" example:"Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"`
 	JarakPemukiman        string `json:"jarak_pemukiman" example:"0m-100m"`
 	JarakSungai           string `json:"jarak_sungai" example:"Lokasi memenuhi peil banjir"`
 	PartisipasiMasyarakat string `json:"partisipasi_masyarakat" example:"< 20% Masyarakat Setuju"`

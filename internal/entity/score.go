@@ -10,7 +10,6 @@ import (
 type ScoreEntity struct {
 	TimbulanSampah        float64 `json:"timbulan_sampah"`
 	JarakTpa              float64 `json:"jarak_tpa"`
-	KondisiTanah          float64 `json:"kondisi_tanah"`
 	JarakPemukiman        float64 `json:"jarak_pemukiman"`
 	JarakSungai           float64 `json:"jarak_sungai"`
 	PartisipasiMasyarakat float64 `json:"partisipasi_masyarakat"`

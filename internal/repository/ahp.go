@@ -10,10 +10,12 @@ import (
 type AhpRepository interface {
 	CreateScore(ctx context.Context, e []entity.ScoreEntityModel) ([]entity.ScoreEntityModel, error)
 	CreateFinalScore(ctx context.Context, e []entity.FinalScoreEntityModel) ([]entity.FinalScoreEntityModel, error)
+
 	FindAlternativesByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
-	FindValueAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
-	FindSFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
+	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
+
+	DeleteAllScoreByCollection(ctx context.Context, collectionID *string) (*entity.ScoreEntityModel, error)
 }
 
 type ahp struct {
@@ -60,17 +62,6 @@ func (a *ahp) FindAlternativesByCollectionID(ctx context.Context, collectionID *
 	return datas, nil
 }
 
-func (a *ahp) FindValueAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
-	var datas []entity.AlternativeEntityModel
-
-	err := a.Db.Where("collection_id = ?", collectionID).Find(&datas).WithContext(ctx).Error
-	if err != nil {
-		return datas, err
-	}
-
-	return datas, nil
-}
-
 func (a *ahp) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
 	var datas []entity.ScoreEntityModel
 
@@ -83,7 +74,7 @@ func (a *ahp) FindScoreByCollectionID(ctx context.Context, collectionID *string)
 	return datas, nil
 }
 
-func (a *ahp) FindSFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error) {
+func (a *ahp) FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error) {
 	var datas []entity.FinalScoreEntityModel
 
 	err := a.Db.Where("collection_id = ?", collectionID).Find(&datas).WithContext(ctx).Error
@@ -93,4 +84,16 @@ func (a *ahp) FindSFinalScoreByCollectionID(ctx context.Context, collectionID *s
 	}
 
 	return datas, nil
+}
+
+func (a *ahp) DeleteAllScoreByCollection(ctx context.Context, collectionID *string) (*entity.ScoreEntityModel, error) {
+	var data *entity.ScoreEntityModel
+
+	err := a.Db.Where("collection_id = ?", collectionID).Delete(&data).WithContext(ctx).Error
+
+	if err != nil {
+		return data, err
+	}
+
+	return data, err
 }

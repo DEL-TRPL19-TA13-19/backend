@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"os"
+	"ta13-svc/internal/abstraction"
 	"ta13-svc/internal/entity"
 	"ta13-svc/internal/factory"
 	"ta13-svc/internal/repository"
@@ -16,13 +18,17 @@ import (
 
 type Service interface {
 	FindCriteriaAlternative(ctx context.Context) (*CriteriaData, error)
+	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
+	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
+
 	CalculateScoreAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
 	CalculateFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
 }
 
 type CriteriaData struct {
-	Pairwise [][]float64 `json:"pairwise"`
-	Criteria []float64   `json:"criteria"`
+	PairwiseFromJson        [][]float64 `json:"pairwise"`
+	PairwiseAfterCalculated [][]float64 `json:"pairwise_after_calculated"`
+	Criteria                []float64   `json:"criteria"`
 }
 
 type Matrix [][]float64
@@ -38,6 +44,36 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
+func (s *service) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
+	datas := make([]entity.ScoreEntityModel, 0)
+
+	datas, err = s.Repository.FindScoreByCollectionID(ctx, collectionID)
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return datas, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	return datas, nil
+}
+
+func (s *service) FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error) {
+	datas := make([]entity.FinalScoreEntityModel, 0)
+
+	datas, err = s.Repository.FindFinalScoreByCollectionID(ctx, collectionID)
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return datas, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return datas, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	return datas, nil
+}
+
 func (s *service) FindCriteriaAlternative(ctx context.Context) (*CriteriaData, error) {
 	var result *CriteriaData
 
@@ -45,48 +81,57 @@ func (s *service) FindCriteriaAlternative(ctx context.Context) (*CriteriaData, e
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	var criteriaData CriteriaData
 	err = json.Unmarshal(jsonFile, &criteriaData)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	//TODO:Masih kurang efektif
+	var criteriaDataUnedited CriteriaData
+	err = json.Unmarshal(jsonFile, &criteriaDataUnedited)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	//MENCARI SUM DARI MASING MASING COL
-	rowsPC := len(criteriaData.Pairwise)
-	colsPC := len(criteriaData.Pairwise[0])
-	colSum := make([]float64, len(criteriaData.Pairwise))
+	rowsPC := len(criteriaData.PairwiseFromJson)
+	colsPC := len(criteriaData.PairwiseFromJson[0])
+	colSum := make([]float64, len(criteriaData.PairwiseFromJson))
 
 	for i := 0; i < rowsPC; i++ {
 		for j := 0; j < colsPC; j++ {
-			colSum[i] += criteriaData.Pairwise[j][i]
+			colSum[i] += criteriaData.PairwiseFromJson[j][i]
 		}
 	}
 
 	//NORMALISASI MATRIKS PAIRWISE
 	for i := 0; i < rowsPC; i++ {
 		for j := 0; j < colsPC; j++ {
-			criteriaData.Pairwise[i][j] /= colSum[j]
+			criteriaData.PairwiseFromJson[i][j] /= colSum[j]
 		}
 	}
 
 	//MENCARI JUMLAH NILAI BARIS DAN KOLOM & MENCARI RATA RATA (BOBOT KRITERIA)
-	normalColSum := make([]float64, len(criteriaData.Pairwise))
-	normalRowSum := make([]float64, len(criteriaData.Pairwise))
-	criteriaWeights := make([]float64, len(criteriaData.Pairwise))
+	normalColSum := make([]float64, len(criteriaData.PairwiseFromJson))
+	normalRowSum := make([]float64, len(criteriaData.PairwiseFromJson))
+	criteriaWeights := make([]float64, len(criteriaData.PairwiseFromJson))
 
 	for i := 0; i < rowsPC; i++ {
 		sum := 0.0
 		for j := 0; j < colsPC; j++ {
-			sum += criteriaData.Pairwise[i][j]
-			normalColSum[i] += criteriaData.Pairwise[j][i]
-			normalRowSum[i] += criteriaData.Pairwise[i][j]
+			sum += criteriaData.PairwiseFromJson[i][j]
+			normalColSum[i] += criteriaData.PairwiseFromJson[j][i]
+			normalRowSum[i] += criteriaData.PairwiseFromJson[i][j]
 			criteriaWeights[i] = sum / float64(8)
 		}
 	}
 
 	result = &CriteriaData{
-		Pairwise: criteriaData.Pairwise,
-		Criteria: criteriaWeights}
+		PairwiseFromJson:        criteriaDataUnedited.PairwiseFromJson,
+		PairwiseAfterCalculated: criteriaData.PairwiseFromJson,
+		Criteria:                criteriaWeights}
 
 	return result, nil
 }
@@ -102,13 +147,34 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 		return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
+	if len(alternatives) == 0 {
+		return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+	}
+
+	checkScores, err := s.Repository.FindScoreByCollectionID(ctx, collectionID)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	if len(checkScores) > 0 {
+		_, err := s.Repository.DeleteAllScoreByCollection(ctx, collectionID)
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+			}
+			return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		}
+	}
+
 	matrix := make(Matrix, 0)
 
 	for i := 0; i < len(alternatives); i++ {
 		row := [][]float64{
 			{ahp.TimbulanSampahSubCriteria()[alternatives[i].TimbulanSampah],
 				ahp.JarakTPASubCriteria()[alternatives[i].JarakTpa],
-				ahp.KondisiTanahSubCriteria()[alternatives[i].KondisiTanah],
 				ahp.JarakPemukimanSubCriteria()[alternatives[i].JarakPemukiman],
 				ahp.JarakSungaiSubCriteria()[alternatives[i].JarakSungai],
 				ahp.PartisipasiMasyarakatSubCriteria()[alternatives[i].PartisipasiMasyarakat],
@@ -138,19 +204,19 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 			ScoreEntity: entity.ScoreEntity{
 				TimbulanSampah:        matrix[i][0],
 				JarakTpa:              matrix[i][1],
-				KondisiTanah:          matrix[i][2],
-				JarakPemukiman:        matrix[i][3],
-				JarakSungai:           matrix[i][4],
-				PartisipasiMasyarakat: matrix[i][5],
-				CakupanRumah:          matrix[i][6],
-				Aksesibilitas:         matrix[i][7],
+				JarakPemukiman:        matrix[i][2],
+				JarakSungai:           matrix[i][3],
+				PartisipasiMasyarakat: matrix[i][4],
+				CakupanRumah:          matrix[i][5],
+				Aksesibilitas:         matrix[i][6],
 			},
+			Entity:        abstraction.Entity{ID: uuid.NewString()},
 			CollectionID:  alternatives[i].CollectionID,
 			AlternativeID: alternatives[i].ID,
 		})
 	}
 
-	_, err := s.Repository.CreateScore(ctx, scores)
+	_, err = s.Repository.CreateScore(ctx, scores)
 
 	if err != nil {
 		return nil, err
@@ -172,7 +238,7 @@ func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collect
 	for i := 0; i < len(alternativeScores); i++ {
 		finalscores[i].CollectionID = alternativeScores[i].CollectionID
 		finalscores[i].AlternativeID = alternativeScores[i].AlternativeID
-		finalscores[i].FinalScore = alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].KondisiTanah + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas
+		finalscores[i].FinalScore = alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas
 	}
 
 	_, err = s.Repository.CreateFinalScore(ctx, finalscores)
