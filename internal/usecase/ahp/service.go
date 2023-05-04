@@ -267,19 +267,6 @@ func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collect
 		})
 	}
 
-	rank := 0
-	for i := 0; i < len(finalScores); i++ {
-		rank++
-		for j := 0; j < i-1; j++ {
-			if finalScores[j].Rank > finalScores[j+1].Rank {
-				finalScores[j].Rank += finalScores[j+1].Rank
-				finalScores[j+1].Rank = finalScores[j].Rank - finalScores[j+1].Rank
-				finalScores[j].Rank -= finalScores[j+1].Rank
-			}
-		}
-		finalScores[i].Rank = int8(rank)
-	}
-
 	_, err = s.Repository.CreateFinalScore(ctx, finalScores)
 
 	if err != nil {
