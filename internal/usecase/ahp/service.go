@@ -19,7 +19,7 @@ import (
 type Service interface {
 	FindCriteriaAlternative(ctx context.Context) (*CriteriaData, error)
 	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
-	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
+	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
 	CalculateScoreAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
 	CalculateFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
@@ -59,8 +59,8 @@ func (s *service) FindScoreByCollectionID(ctx context.Context, collectionID *str
 	return datas, nil
 }
 
-func (s *service) FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error) {
-	datas := make([]entity.FinalScoreEntityModel, 0)
+func (s *service) FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
+	datas := make([]entity.AlternativeEntityModel, 0)
 
 	datas, err = s.Repository.FindFinalScoreByCollectionID(ctx, collectionID)
 
@@ -233,19 +233,58 @@ func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collect
 		return nil, err
 	}
 
-	finalscores := make([]entity.FinalScoreEntityModel, 0)
-
-	for i := 0; i < len(alternativeScores); i++ {
-		finalscores[i].CollectionID = alternativeScores[i].CollectionID
-		finalscores[i].AlternativeID = alternativeScores[i].AlternativeID
-		finalscores[i].FinalScore = alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas
+	if len(alternativeScores) == 0 {
+		return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
 	}
 
-	_, err = s.Repository.CreateFinalScore(ctx, finalscores)
+	checkFinalScores, err := s.Repository.FindFinalScoreByCollectionID(ctx, collectionID)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return finalscores, nil
+	if len(checkFinalScores) > 0 {
+		_, err := s.Repository.DeleteAllFinalScoreByCollection(ctx, collectionID)
+		if err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+			}
+			return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+		}
+	}
+
+	finalScores := make([]entity.FinalScoreEntityModel, 0)
+
+	for i := 0; i < len(alternativeScores); i++ {
+		finalScores = append(finalScores, entity.FinalScoreEntityModel{
+			Entity: abstraction.Entity{ID: uuid.NewString()},
+			FinalScoreEntity: entity.FinalScoreEntity{
+				FinalScore: alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas,
+				Rank:       0,
+			},
+			AlternativeID: alternativeScores[i].AlternativeID,
+			CollectionID:  alternativeScores[i].CollectionID,
+		})
+	}
+
+	rank := 0
+	for i := 0; i < len(finalScores); i++ {
+		rank++
+		for j := 0; j < i-1; j++ {
+			if finalScores[j].Rank > finalScores[j+1].Rank {
+				finalScores[j].Rank += finalScores[j+1].Rank
+				finalScores[j+1].Rank = finalScores[j].Rank - finalScores[j+1].Rank
+				finalScores[j].Rank -= finalScores[j+1].Rank
+			}
+		}
+		finalScores[i].Rank = int8(rank)
+	}
+
+	_, err = s.Repository.CreateFinalScore(ctx, finalScores)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return finalScores, nil
 }

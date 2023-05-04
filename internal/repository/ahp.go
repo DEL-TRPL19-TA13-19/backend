@@ -13,9 +13,10 @@ type AhpRepository interface {
 
 	FindAlternativesByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
-	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
+	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
 	DeleteAllScoreByCollection(ctx context.Context, collectionID *string) (*entity.ScoreEntityModel, error)
+	DeleteAllFinalScoreByCollection(ctx context.Context, collectionID *string) (*entity.FinalScoreEntityModel, error)
 }
 
 type ahp struct {
@@ -74,10 +75,10 @@ func (a *ahp) FindScoreByCollectionID(ctx context.Context, collectionID *string)
 	return datas, nil
 }
 
-func (a *ahp) FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error) {
-	var datas []entity.FinalScoreEntityModel
+func (a *ahp) FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
+	var datas []entity.AlternativeEntityModel
 
-	err := a.Db.Where("collection_id = ?", collectionID).Find(&datas).WithContext(ctx).Error
+	err := a.Db.Preload("FinalScore").Where("collection_id = ?", collectionID).Find(&datas).WithContext(ctx).Error
 
 	if err != nil {
 		return datas, err
@@ -88,6 +89,18 @@ func (a *ahp) FindFinalScoreByCollectionID(ctx context.Context, collectionID *st
 
 func (a *ahp) DeleteAllScoreByCollection(ctx context.Context, collectionID *string) (*entity.ScoreEntityModel, error) {
 	var data *entity.ScoreEntityModel
+
+	err := a.Db.Where("collection_id = ?", collectionID).Delete(&data).WithContext(ctx).Error
+
+	if err != nil {
+		return data, err
+	}
+
+	return data, err
+}
+
+func (a *ahp) DeleteAllFinalScoreByCollection(ctx context.Context, collectionID *string) (*entity.FinalScoreEntityModel, error) {
+	var data *entity.FinalScoreEntityModel
 
 	err := a.Db.Where("collection_id = ?", collectionID).Delete(&data).WithContext(ctx).Error
 

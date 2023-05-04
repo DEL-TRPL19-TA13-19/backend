@@ -22,9 +22,9 @@ type AlternativeEntity struct {
 type AlternativeEntityModel struct {
 	abstraction.Entity
 	AlternativeEntity
-	CollectionID          string                `json:"collection_id" gorm:"size:191"`
-	ScoreEntityModel      ScoreEntityModel      `json:"scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
-	FinalScoreEntityModel FinalScoreEntityModel `json:"final_scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
+	CollectionID string                `json:"collection_id" gorm:"size:191"`
+	Score        ScoreEntityModel      `json:"scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
+	FinalScore   FinalScoreEntityModel `json:"final_scores" gorm:"foreignKey:AlternativeID;constraint:OnDelete:CASCADE;"`
 }
 
 func (AlternativeEntityModel) TableName() string {
