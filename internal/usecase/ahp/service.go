@@ -139,6 +139,7 @@ func (s *service) FindCriteriaAlternative(ctx context.Context) (*CriteriaData, e
 func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
 	alternatives := make([]entity.AlternativeEntityModel, 0)
 	alternatives, err = s.Repository.FindAlternativesByCollectionID(ctx, collectionID)
+	var collection *entity.CollectionEntityModel
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -218,6 +219,14 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 
 	_, err = s.Repository.CreateScore(ctx, scores)
 
+	collection = &entity.CollectionEntityModel{
+		CollectionEntity: entity.CollectionEntity{
+			ScoreIsCalculated: true,
+		},
+	}
+
+	_, err = s.Repository.UpdateCollection(ctx, collectionID, collection)
+
 	if err != nil {
 		return nil, err
 	}
@@ -228,6 +237,7 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 
 func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error) {
 	alternativeScores, err := s.CalculateScoreAlternativeByCollectionID(ctx, collectionID)
+	var collection *entity.CollectionEntityModel
 
 	if err != nil {
 		return nil, err
@@ -268,6 +278,14 @@ func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collect
 	}
 
 	_, err = s.Repository.CreateFinalScore(ctx, finalScores)
+
+	collection = &entity.CollectionEntityModel{
+		CollectionEntity: entity.CollectionEntity{
+			FinalScoreIsCalculated: true,
+		},
+	}
+
+	_, err = s.Repository.UpdateCollection(ctx, collectionID, collection)
 
 	if err != nil {
 		return nil, err

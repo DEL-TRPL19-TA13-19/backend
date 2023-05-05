@@ -9,9 +9,10 @@ import (
 )
 
 type CollectionEntity struct {
-	Nama         string `json:"nama" example:"Mencari lokasi TPS di balige"`
-	Deskripsi    string `json:"deskripsi"`
-	IsCalculated bool   `json:"is_calculated"`
+	Nama                   string `json:"nama" example:"Mencari lokasi TPS di balige"`
+	Deskripsi              string `json:"deskripsi"`
+	ScoreIsCalculated      bool   `json:"score_is_calculated"`
+	FinalScoreIsCalculated bool   `json:"final_score_is_calculated"`
 }
 
 type CollectionEntityModel struct {

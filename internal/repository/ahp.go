@@ -15,6 +15,8 @@ type AhpRepository interface {
 	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
 	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
+	UpdateCollection(ctx context.Context, collectionID *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
+
 	DeleteAllScoreByCollection(ctx context.Context, collectionID *string) (*entity.ScoreEntityModel, error)
 	DeleteAllFinalScoreByCollection(ctx context.Context, collectionID *string) (*entity.FinalScoreEntityModel, error)
 }
@@ -85,6 +87,17 @@ func (a *ahp) FindFinalScoreByCollectionID(ctx context.Context, collectionID *st
 	}
 
 	return datas, nil
+}
+
+func (a *ahp) UpdateCollection(ctx context.Context, collectionID *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error) {
+
+	err := a.Db.Model(e).Where("id", collectionID).Updates(e).WithContext(ctx).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return e, nil
 }
 
 func (a *ahp) DeleteAllScoreByCollection(ctx context.Context, collectionID *string) (*entity.ScoreEntityModel, error) {
