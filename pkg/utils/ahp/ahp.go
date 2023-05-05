@@ -21,15 +21,15 @@ func JarakTPASubCriteria() map[string]float64 {
 		"Alternatif tidak berada di jangkauan TPA":                 0.064}
 }
 
-func KondisiTanahSubCriteria() map[string]float64 {
-	return map[string]float64{
-		"Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air": 0.503,
-		"Tanah keras tidak memiliki unsur organik dan unsur hara":               0.267,
-		"Tanah keras tidak memiliki salah satu unsur hara atau unsur organik":   0.260,
-		"Tanah keras memiliki unsur organik dan unsur hara":                     0.134,
-		"Bukan tanah keras": 0.068,
-	}
-}
+//func KondisiTanahSubCriteria() map[string]float64 {
+//	return map[string]float64{
+//		"Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air": 0.503,
+//		"Tanah keras tidak memiliki unsur organik dan unsur hara":               0.267,
+//		"Tanah keras tidak memiliki salah satu unsur hara atau unsur organik":   0.260,
+//		"Tanah keras memiliki unsur organik dan unsur hara":                     0.134,
+//		"Bukan tanah keras": 0.068,
+//	}
+//}
 
 func JarakPemukimanSubCriteria() map[string]float64 {
 	return map[string]float64{

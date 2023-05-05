@@ -34,10 +34,6 @@ definitions:
       jarak_tpa:
         example: Alternatif berada di jangkauan layanan TPA
         type: string
-      kondisi_tanah:
-        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
-          air
-        type: string
       nama:
         example: nama
         type: string
@@ -76,10 +72,6 @@ definitions:
         type: string
       jarak_tpa:
         example: Alternatif berada di jangkauan layanan TPA
-        type: string
-      kondisi_tanah:
-        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
-          air
         type: string
       modified_at:
         type: string
@@ -175,10 +167,6 @@ definitions:
       jarak_tpa:
         example: Alternatif berada di jangkauan layanan TPA
         type: string
-      kondisi_tanah:
-        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
-          air
-        type: string
       nama:
         example: nama
         type: string
@@ -219,10 +207,6 @@ definitions:
         type: string
       jarak_tpa:
         example: Alternatif berada di jangkauan layanan TPA
-        type: string
-      kondisi_tanah:
-        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
-          air
         type: string
       modified_at:
         type: string
@@ -769,10 +753,6 @@ definitions:
       jarak_tpa:
         example: Alternatif berada di jangkauan layanan TPA
         type: string
-      kondisi_tanah:
-        example: Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap
-          air
-        type: string
       modified_at:
         type: string
       modified_by:
@@ -868,8 +848,6 @@ definitions:
         type: number
       jarak_tpa:
         type: number
-      kondisi_tanah:
-        type: number
       modified_at:
         type: string
       modified_by:
@@ -955,11 +933,11 @@ paths:
       summary: Get All Criteria Alternative
       tags:
       - AHP
-  /ahp/finalscores/{collection_id}:
+  /ahp/final_scores/{collection_id}:
     get:
       consumes:
       - application/json
-      description: Get Final Scores by Collection ID
+      description: Get Final Scores
       parameters:
       - description: collection_id path
         in: path
@@ -981,14 +959,43 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Get Final Scores by Collection ID
+      summary: Get Final Scores
+      tags:
+      - AHP
+  /ahp/final_scores/calculate/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Calculate Final Scores by Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Calculate Final Scores by Collection ID
       tags:
       - AHP
   /ahp/scores/{collection_id}:
     get:
       consumes:
       - application/json
-      description: Get Scores by Collection ID
+      description: Get Scores By Collection ID
       parameters:
       - description: collection_id path
         in: path
@@ -1010,7 +1017,36 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.errorResponse'
-      summary: Get Scores by Collection ID
+      summary: Get Scores By Collection ID
+      tags:
+      - AHP
+  /ahp/scores/calculate/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Calculate Scores by Collection ID
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Calculate Scores by Collection ID
       tags:
       - AHP
   /alternative:

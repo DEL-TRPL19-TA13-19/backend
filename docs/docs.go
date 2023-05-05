@@ -50,9 +50,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/ahp/finalscores/{collection_id}": {
+        "/ahp/final_scores/calculate/{collection_id}": {
             "get": {
-                "description": "Get Final Scores by Collection ID",
+                "description": "Calculate Final Scores by Collection ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -62,7 +62,95 @@ const docTemplate = `{
                 "tags": [
                     "AHP"
                 ],
-                "summary": "Get Final Scores by Collection ID",
+                "summary": "Calculate Final Scores by Collection ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection_id path",
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/final_scores/{collection_id}": {
+            "get": {
+                "description": "Get Final Scores",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Get Final Scores",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection_id path",
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/scores/calculate/{collection_id}": {
+            "get": {
+                "description": "Calculate Scores by Collection ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Calculate Scores by Collection ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -96,7 +184,7 @@ const docTemplate = `{
         },
         "/ahp/scores/{collection_id}": {
             "get": {
-                "description": "Get Scores by Collection ID",
+                "description": "Get Scores By Collection ID",
                 "consumes": [
                     "application/json"
                 ],
@@ -106,7 +194,7 @@ const docTemplate = `{
                 "tags": [
                     "AHP"
                 ],
-                "summary": "Get Scores by Collection ID",
+                "summary": "Get Scores By Collection ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -1110,10 +1198,6 @@ const docTemplate = `{
                     "type": "string",
                     "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "kondisi_tanah": {
-                    "type": "string",
-                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
-                },
                 "nama": {
                     "type": "string",
                     "example": "nama"
@@ -1168,10 +1252,6 @@ const docTemplate = `{
                 "jarak_tpa": {
                     "type": "string",
                     "example": "Alternatif berada di jangkauan layanan TPA"
-                },
-                "kondisi_tanah": {
-                    "type": "string",
-                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1319,10 +1399,6 @@ const docTemplate = `{
                     "type": "string",
                     "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "kondisi_tanah": {
-                    "type": "string",
-                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
-                },
                 "nama": {
                     "type": "string",
                     "example": "nama"
@@ -1377,10 +1453,6 @@ const docTemplate = `{
                 "jarak_tpa": {
                     "type": "string",
                     "example": "Alternatif berada di jangkauan layanan TPA"
-                },
-                "kondisi_tanah": {
-                    "type": "string",
-                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
                 },
                 "modified_at": {
                     "type": "string"
@@ -2205,10 +2277,6 @@ const docTemplate = `{
                     "type": "string",
                     "example": "Alternatif berada di jangkauan layanan TPA"
                 },
-                "kondisi_tanah": {
-                    "type": "string",
-                    "example": "Tanah keras tidak memiliki unsur organik dan unsur hara dan kedap air"
-                },
                 "modified_at": {
                     "type": "string"
                 },
@@ -2349,9 +2417,6 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "jarak_tpa": {
-                    "type": "number"
-                },
-                "kondisi_tanah": {
                     "type": "number"
                 },
                 "modified_at": {
