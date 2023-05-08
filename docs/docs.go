@@ -48,6 +48,50 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "patch": {
+                "description": "Update Criteria Alternative",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Update Criteria Alternative",
+                "parameters": [
+                    {
+                        "description": "request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CriteriaAlternativeUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
             }
         },
         "/ahp/final_scores/calculate/{collection_id}": {
@@ -107,6 +151,50 @@ const docTemplate = `{
                     "AHP"
                 ],
                 "summary": "Get Final Scores",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection_id path",
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ahp/point/calculate/{collection_id}": {
+            "get": {
+                "description": "Calculate Alternative to Point",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AHP"
+                ],
+                "summary": "Calculate Alternative to Point",
                 "parameters": [
                     {
                         "type": "string",
@@ -1713,12 +1801,15 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
-                "is_calculated": {
+                "final_score_is_calculated": {
                     "type": "boolean"
                 },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "score_is_calculated": {
+                    "type": "boolean"
                 }
             }
         },
@@ -1740,6 +1831,9 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_score_is_calculated": {
+                    "type": "boolean"
+                },
                 "final_scores": {
                     "type": "array",
                     "items": {
@@ -1748,9 +1842,6 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
-                },
-                "is_calculated": {
-                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1761,6 +1852,9 @@ const docTemplate = `{
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "score_is_calculated": {
+                    "type": "boolean"
                 },
                 "scores": {
                     "type": "array",
@@ -1846,15 +1940,18 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_score_is_calculated": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "string"
-                },
-                "is_calculated": {
-                    "type": "boolean"
                 },
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "score_is_calculated": {
+                    "type": "boolean"
                 }
             }
         },
@@ -1876,6 +1973,9 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_score_is_calculated": {
+                    "type": "boolean"
+                },
                 "final_scores": {
                     "type": "array",
                     "items": {
@@ -1884,9 +1984,6 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
-                },
-                "is_calculated": {
-                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -1897,6 +1994,9 @@ const docTemplate = `{
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "score_is_calculated": {
+                    "type": "boolean"
                 },
                 "scores": {
                     "type": "array",
@@ -1947,6 +2047,20 @@ const docTemplate = `{
                         },
                         "meta": {
                             "$ref": "#/definitions/response.Meta"
+                        }
+                    }
+                }
+            }
+        },
+        "dto.CriteriaAlternativeUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "pairwise": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
                         }
                     }
                 }
@@ -2321,6 +2435,9 @@ const docTemplate = `{
                 "deskripsi": {
                     "type": "string"
                 },
+                "final_score_is_calculated": {
+                    "type": "boolean"
+                },
                 "final_scores": {
                     "type": "array",
                     "items": {
@@ -2329,9 +2446,6 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
-                },
-                "is_calculated": {
-                    "type": "boolean"
                 },
                 "modified_at": {
                     "type": "string"
@@ -2342,6 +2456,9 @@ const docTemplate = `{
                 "nama": {
                     "type": "string",
                     "example": "Mencari lokasi TPS di balige"
+                },
+                "score_is_calculated": {
+                    "type": "boolean"
                 },
                 "scores": {
                     "type": "array",

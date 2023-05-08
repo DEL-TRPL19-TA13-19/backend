@@ -9,6 +9,7 @@ import (
 	"gorm.io/gorm"
 	"os"
 	"ta13-svc/internal/abstraction"
+	dto "ta13-svc/internal/dto/ahp"
 	"ta13-svc/internal/entity"
 	"ta13-svc/internal/factory"
 	"ta13-svc/internal/repository"
@@ -17,21 +18,16 @@ import (
 )
 
 type Service interface {
-	FindCriteriaAlternative(ctx context.Context) (*CriteriaData, error)
+	FindCriteriaAlternative(ctx context.Context) (*entity.CriteriaData, error)
 	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
 	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
+	UpdateCriteriaAlternative(ctx context.Context, c *entity.CriteriaData) (*entity.CriteriaData, error)
+
+	CalculateAlternativeToPoint(ctx context.Context, collectionID *string) (entity.Matrix, error)
 	CalculateScoreAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
 	CalculateFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.FinalScoreEntityModel, error)
 }
-
-type CriteriaData struct {
-	PairwiseFromJson        [][]float64 `json:"pairwise"`
-	PairwiseAfterCalculated [][]float64 `json:"pairwise_after_calculated"`
-	Criteria                []float64   `json:"criteria"`
-}
-
-type Matrix [][]float64
 
 type service struct {
 	Repository repository.AhpRepository
@@ -74,22 +70,22 @@ func (s *service) FindFinalScoreByCollectionID(ctx context.Context, collectionID
 	return datas, nil
 }
 
-func (s *service) FindCriteriaAlternative(ctx context.Context) (*CriteriaData, error) {
-	var result *CriteriaData
+func (s *service) FindCriteriaAlternative(ctx context.Context) (*entity.CriteriaData, error) {
+	var result *entity.CriteriaData
 
 	jsonFile, err := os.ReadFile("./internal/usecase/ahp/pairwise.json")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	var criteriaData CriteriaData
+	var criteriaData entity.CriteriaData
 	err = json.Unmarshal(jsonFile, &criteriaData)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	//TODO:Masih kurang efektif
-	var criteriaDataUnedited CriteriaData
+	var criteriaDataUnedited entity.CriteriaData
 	err = json.Unmarshal(jsonFile, &criteriaDataUnedited)
 	if err != nil {
 		fmt.Println(err)
@@ -128,12 +124,67 @@ func (s *service) FindCriteriaAlternative(ctx context.Context) (*CriteriaData, e
 		}
 	}
 
-	result = &CriteriaData{
+	result = &entity.CriteriaData{
 		PairwiseFromJson:        criteriaDataUnedited.PairwiseFromJson,
 		PairwiseAfterCalculated: criteriaData.PairwiseFromJson,
 		Criteria:                criteriaWeights}
 
 	return result, nil
+}
+
+func (s *service) UpdateCriteriaAlternative(ctx context.Context, c *dto.CriteriaAlternativeUpdateRequest) (*entity.CriteriaData, error) {
+
+	jsonFile, err := os.ReadFile("./internal/usecase/ahp/pairwise.json")
+	var criteriaData entity.CriteriaData
+
+	err = json.Unmarshal(jsonFile, &criteriaData)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	criteriaData.PairwiseFromJson = c.Pairwise
+
+	_, err = json.Marshal(criteriaData)
+
+	result := &entity.CriteriaData{
+		PairwiseFromJson: criteriaData.PairwiseFromJson,
+	}
+
+	return result, nil
+}
+
+func (s *service) CalculateAlternativeToPoint(ctx context.Context, collectionID *string) (entity.Matrix, error) {
+	alternatives := make([]entity.AlternativeEntityModel, 0)
+	alternatives, err = s.Repository.FindAlternativesByCollectionID(ctx, collectionID)
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
+	}
+
+	if len(alternatives) == 0 {
+		return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+	}
+
+	matrix := make(entity.Matrix, 0)
+
+	for i := 0; i < len(alternatives); i++ {
+		row := entity.Matrix{
+			{ahp.TimbulanSampahSubCriteria()[alternatives[i].TimbulanSampah],
+				ahp.JarakTPASubCriteria()[alternatives[i].JarakTpa],
+				ahp.JarakPemukimanSubCriteria()[alternatives[i].JarakPemukiman],
+				ahp.JarakSungaiSubCriteria()[alternatives[i].JarakSungai],
+				ahp.PartisipasiMasyarakatSubCriteria()[alternatives[i].PartisipasiMasyarakat],
+				ahp.CakupanRumahSubCriteria()[alternatives[i].CakupanRumah],
+				ahp.AksesibilitasSubCriteria()[alternatives[i].Aksesibilitas]}}
+
+		matrix = append(matrix, row...)
+	}
+
+	return matrix, nil
 }
 
 func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
@@ -170,19 +221,13 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 		}
 	}
 
-	matrix := make(Matrix, 0)
+	matrix, err := s.CalculateAlternativeToPoint(ctx, collectionID)
 
-	for i := 0; i < len(alternatives); i++ {
-		row := [][]float64{
-			{ahp.TimbulanSampahSubCriteria()[alternatives[i].TimbulanSampah],
-				ahp.JarakTPASubCriteria()[alternatives[i].JarakTpa],
-				ahp.JarakPemukimanSubCriteria()[alternatives[i].JarakPemukiman],
-				ahp.JarakSungaiSubCriteria()[alternatives[i].JarakSungai],
-				ahp.PartisipasiMasyarakatSubCriteria()[alternatives[i].PartisipasiMasyarakat],
-				ahp.CakupanRumahSubCriteria()[alternatives[i].CakupanRumah],
-				ahp.AksesibilitasSubCriteria()[alternatives[i].Aksesibilitas]}}
-
-		matrix = append(matrix, row...)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, response.ErrorBuilder(&response.ErrorConstant.NotFound, err)
+		}
+		return nil, response.ErrorBuilder(&response.ErrorConstant.InternalServerError, err)
 	}
 
 	criteriaData, _ := s.FindCriteriaAlternative(ctx)

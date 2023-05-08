@@ -385,11 +385,13 @@ definitions:
     properties:
       deskripsi:
         type: string
-      is_calculated:
+      final_score_is_calculated:
         type: boolean
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      score_is_calculated:
+        type: boolean
     type: object
   dto.CollectionCreateResponse:
     properties:
@@ -403,14 +405,14 @@ definitions:
         type: string
       deskripsi:
         type: string
+      final_score_is_calculated:
+        type: boolean
       final_scores:
         items:
           $ref: '#/definitions/entity.FinalScoreEntityModel'
         type: array
       id:
         type: string
-      is_calculated:
-        type: boolean
       modified_at:
         type: string
       modified_by:
@@ -418,6 +420,8 @@ definitions:
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      score_is_calculated:
+        type: boolean
       scores:
         items:
           $ref: '#/definitions/entity.ScoreEntityModel'
@@ -469,13 +473,15 @@ definitions:
     properties:
       deskripsi:
         type: string
+      final_score_is_calculated:
+        type: boolean
       id:
         type: string
-      is_calculated:
-        type: boolean
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      score_is_calculated:
+        type: boolean
     required:
     - id
     type: object
@@ -491,14 +497,14 @@ definitions:
         type: string
       deskripsi:
         type: string
+      final_score_is_calculated:
+        type: boolean
       final_scores:
         items:
           $ref: '#/definitions/entity.FinalScoreEntityModel'
         type: array
       id:
         type: string
-      is_calculated:
-        type: boolean
       modified_at:
         type: string
       modified_by:
@@ -506,6 +512,8 @@ definitions:
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      score_is_calculated:
+        type: boolean
       scores:
         items:
           $ref: '#/definitions/entity.ScoreEntityModel'
@@ -539,6 +547,15 @@ definitions:
           meta:
             $ref: '#/definitions/response.Meta'
         type: object
+    type: object
+  dto.CriteriaAlternativeUpdateRequest:
+    properties:
+      pairwise:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
     type: object
   dto.TpsCreateRequest:
     properties:
@@ -783,14 +800,14 @@ definitions:
         type: string
       deskripsi:
         type: string
+      final_score_is_calculated:
+        type: boolean
       final_scores:
         items:
           $ref: '#/definitions/entity.FinalScoreEntityModel'
         type: array
       id:
         type: string
-      is_calculated:
-        type: boolean
       modified_at:
         type: string
       modified_by:
@@ -798,6 +815,8 @@ definitions:
       nama:
         example: Mencari lokasi TPS di balige
         type: string
+      score_is_calculated:
+        type: boolean
       scores:
         items:
           $ref: '#/definitions/entity.ScoreEntityModel'
@@ -933,6 +952,35 @@ paths:
       summary: Get All Criteria Alternative
       tags:
       - AHP
+    patch:
+      consumes:
+      - application/json
+      description: Update Criteria Alternative
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CriteriaAlternativeUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Update Criteria Alternative
+      tags:
+      - AHP
   /ahp/final_scores/{collection_id}:
     get:
       consumes:
@@ -989,6 +1037,35 @@ paths:
           schema:
             $ref: '#/definitions/response.errorResponse'
       summary: Calculate Final Scores by Collection ID
+      tags:
+      - AHP
+  /ahp/point/calculate/{collection_id}:
+    get:
+      consumes:
+      - application/json
+      description: Calculate Alternative to Point
+      parameters:
+      - description: collection_id path
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.errorResponse'
+      summary: Calculate Alternative to Point
       tags:
       - AHP
   /ahp/scores/{collection_id}:

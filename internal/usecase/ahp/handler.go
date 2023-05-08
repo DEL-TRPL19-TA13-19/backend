@@ -101,6 +101,68 @@ func (h *handler) GetFinalScores(c echo.Context) error {
 	return response.SuccessResponse(result).Send(c)
 }
 
+// UpdateCriteriaAlternative
+// @Summary Update Criteria Alternative
+// @Description Update Criteria Alternative
+// @Tags AHP
+// @Accept json
+// @Produce json
+// @Param request body dto.CriteriaAlternativeUpdateRequest true "request body"
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /ahp/criteria [patch]
+func (h *handler) UpdateCriteriaAlternative(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	payload := new(dto.CriteriaAlternativeUpdateRequest)
+	if err := c.Bind(&payload); err != nil {
+		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
+	}
+	if err := c.Validate(payload); err != nil {
+		return response.ErrorBuilder(&response.ErrorConstant.Validation, err).Send(c)
+	}
+
+	result, err := h.service.UpdateCriteriaAlternative(ctx, payload)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+}
+
+// CalculateAlternativeToPoint
+// @Summary Calculate Alternative to Point
+// @Description Calculate Alternative to Point
+// @Tags AHP
+// @Accept json
+// @Produce json
+// @Param collection_id path string true "collection_id path"
+// @Failure 400 {object} response.errorResponse
+// @Failure 404 {object} response.errorResponse
+// @Failure 500 {object} response.errorResponse
+// @Router /ahp/point/calculate/{collection_id} [get]
+func (h *handler) CalculateAlternativeToPoint(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	payload := new(dto.AHPByCollectionIDRequest)
+	if err = c.Bind(payload); err != nil {
+		return response.ErrorBuilder(&response.ErrorConstant.BadRequest, err).Send(c)
+	}
+	if err = c.Validate(payload); err != nil {
+		response := response.ErrorBuilder(&response.ErrorConstant.Validation, err)
+		return response.Send(c)
+	}
+
+	result, err := h.service.CalculateAlternativeToPoint(ctx, &payload.CollectionID)
+	if err != nil {
+		return response.ErrorResponse(err).Send(c)
+	}
+
+	return response.SuccessResponse(result).Send(c)
+
+}
+
 // CalculateScores
 // @Summary Calculate Scores by Collection ID
 // @Description Calculate Scores by Collection ID
