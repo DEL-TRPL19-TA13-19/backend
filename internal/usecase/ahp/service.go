@@ -19,7 +19,7 @@ import (
 
 type Service interface {
 	FindCriteriaAlternative(ctx context.Context) (*entity.CriteriaData, error)
-	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
+	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
 	UpdateCriteriaAlternative(ctx context.Context, c *entity.CriteriaData) (*entity.CriteriaData, error)
@@ -40,8 +40,8 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
-	datas := make([]entity.ScoreEntityModel, 0)
+func (s *service) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
+	datas := make([]entity.AlternativeEntityModel, 0)
 
 	datas, err = s.Repository.FindScoreByCollectionID(ctx, collectionID)
 
@@ -314,7 +314,7 @@ func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collect
 		finalScores = append(finalScores, entity.FinalScoreEntityModel{
 			Entity: abstraction.Entity{ID: uuid.NewString()},
 			FinalScoreEntity: entity.FinalScoreEntity{
-				FinalScore: alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas,
+				FinalScore: (alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas) * 100,
 				Rank:       0,
 			},
 			AlternativeID: alternativeScores[i].AlternativeID,
