@@ -6,12 +6,12 @@ func GetRatioIndex() [15]float64 {
 
 func TimbulanSampahSubCriteria() map[string]float64 {
 	return map[string]float64{
-		"Jaringan Jalan":      0.282,
-		"Perumahan":           0.438,
-		"Fasilitas Komersial": 0.222,
-		"Fasilitas Umum":      0.174,
-		"Fasilitas Sosial":    0.103,
-		"Ruang Terbuka":       0.038}
+		"Jaringan Jalan":      0.086,
+		"Perumahan":           0.439,
+		"Fasilitas Komersial": 0.260,
+		"Fasilitas Umum":      0.139,
+		"Fasilitas Sosial":    0.049,
+		"Ruang Terbuka":       0.026}
 }
 
 func JarakTPASubCriteria() map[string]float64 {
@@ -33,11 +33,11 @@ func JarakTPASubCriteria() map[string]float64 {
 
 func JarakPemukimanSubCriteria() map[string]float64 {
 	return map[string]float64{
-		"0m-100m":   0.503,
-		"101m-200m": 0.260,
+		"0m-100m":   0.035,
+		"101m-200m": 0.068,
 		"201m-300m": 0.134,
-		"301m-400m": 0.068,
-		"401m-500m": 0.035,
+		"301m-400m": 0.260,
+		"401m-500m": 0.503,
 	}
 }
 
@@ -51,21 +51,21 @@ func JarakSungaiSubCriteria() map[string]float64 {
 
 func PartisipasiMasyarakatSubCriteria() map[string]float64 {
 	return map[string]float64{
-		"<20% Masyarakat Setuju":    0.503,
-		"21%-40% Masyarakat Setuju": 0.260,
+		"<20% Masyarakat Setuju":    0.035,
+		"21%-40% Masyarakat Setuju": 0.068,
 		"41%-60% Masyarakat Setuju": 0.134,
-		"61%-81% Masyarakat Setuju": 0.068,
-		">80% Masyarakat Setuju":    0.035,
+		"61%-81% Masyarakat Setuju": 0.260,
+		">80% Masyarakat Setuju":    0.503,
 	}
 }
 
 func CakupanRumahSubCriteria() map[string]float64 {
 	return map[string]float64{
-		"<40 Rumah":     0.503,
-		"41-80 Rumah":   0.260,
+		"<40 Rumah":     0.035,
+		"41-80 Rumah":   0.068,
 		"81-120 Rumah":  0.134,
-		"121-160 Rumah": 0.068,
-		">160 Rumah":    0.035,
+		"121-160 Rumah": 0.260,
+		">160 Rumah":    0.503,
 	}
 }
 
