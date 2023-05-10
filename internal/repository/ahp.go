@@ -12,7 +12,7 @@ type AhpRepository interface {
 	CreateFinalScore(ctx context.Context, e []entity.FinalScoreEntityModel) ([]entity.FinalScoreEntityModel, error)
 
 	FindAlternativesByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
-	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
+	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
 	UpdateCollection(ctx context.Context, collectionID *string, e *entity.CollectionEntityModel) (*entity.CollectionEntityModel, error)
@@ -65,10 +65,10 @@ func (a *ahp) FindAlternativesByCollectionID(ctx context.Context, collectionID *
 	return datas, nil
 }
 
-func (a *ahp) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
-	var datas []entity.ScoreEntityModel
+func (a *ahp) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
+	var datas []entity.AlternativeEntityModel
 
-	err := a.Db.Where("collection_id = ?", collectionID).Find(&datas).WithContext(ctx).Error
+	err := a.Db.Preload("Score").Where("collection_id = ?", collectionID).Find(&datas).WithContext(ctx).Error
 
 	if err != nil {
 		return datas, err

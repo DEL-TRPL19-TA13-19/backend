@@ -15,11 +15,12 @@ import (
 	"ta13-svc/internal/repository"
 	"ta13-svc/pkg/response"
 	"ta13-svc/pkg/utils/ahp"
+	"ta13-svc/pkg/utils/constant"
 )
 
 type Service interface {
 	FindCriteriaAlternative(ctx context.Context) (*entity.CriteriaData, error)
-	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error)
+	FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 	FindFinalScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error)
 
 	UpdateCriteriaAlternative(ctx context.Context, c *entity.CriteriaData) (*entity.CriteriaData, error)
@@ -40,8 +41,8 @@ func NewService(f *factory.Factory) *service {
 	return &service{repository, db}
 }
 
-func (s *service) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.ScoreEntityModel, error) {
-	datas := make([]entity.ScoreEntityModel, 0)
+func (s *service) FindScoreByCollectionID(ctx context.Context, collectionID *string) ([]entity.AlternativeEntityModel, error) {
+	datas := make([]entity.AlternativeEntityModel, 0)
 
 	datas, err = s.Repository.FindScoreByCollectionID(ctx, collectionID)
 
@@ -73,7 +74,7 @@ func (s *service) FindFinalScoreByCollectionID(ctx context.Context, collectionID
 func (s *service) FindCriteriaAlternative(ctx context.Context) (*entity.CriteriaData, error) {
 	var result *entity.CriteriaData
 
-	jsonFile, err := os.ReadFile("./internal/usecase/ahp/pairwise.json")
+	jsonFile, err := os.ReadFile("asset/pairwise.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -120,7 +121,7 @@ func (s *service) FindCriteriaAlternative(ctx context.Context) (*entity.Criteria
 			sum += criteriaData.PairwiseFromJson[i][j]
 			normalColSum[i] += criteriaData.PairwiseFromJson[j][i]
 			normalRowSum[i] += criteriaData.PairwiseFromJson[i][j]
-			criteriaWeights[i] = sum / float64(8)
+			criteriaWeights[i] = sum / float64(len(criteriaWeights))
 		}
 	}
 
@@ -134,19 +135,28 @@ func (s *service) FindCriteriaAlternative(ctx context.Context) (*entity.Criteria
 
 func (s *service) UpdateCriteriaAlternative(ctx context.Context, c *dto.CriteriaAlternativeUpdateRequest) (*entity.CriteriaData, error) {
 
-	jsonFile, err := os.ReadFile("./internal/usecase/ahp/pairwise.json")
+	jsonFile, err := os.ReadFile("asset/pairwise.json")
 	var criteriaData entity.CriteriaData
 
 	err = json.Unmarshal(jsonFile, &criteriaData)
 
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 
 	criteriaData.PairwiseFromJson = c.Pairwise
 
-	_, err = json.Marshal(criteriaData)
+	b, err := json.Marshal(criteriaData)
+	if err != nil {
+		return nil, err
+	}
 
+	err = os.WriteFile("asset/pairwise.json", b, 0644)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(string(b))
 	result := &entity.CriteriaData{
 		PairwiseFromJson: criteriaData.PairwiseFromJson,
 	}
@@ -221,7 +231,8 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 		}
 	}
 
-	matrix, err := s.CalculateAlternativeToPoint(ctx, collectionID)
+	matrix := make(entity.Matrix, 0)
+	matrix, err = s.CalculateAlternativeToPoint(ctx, collectionID)
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -245,16 +256,16 @@ func (s *service) CalculateScoreAlternativeByCollectionID(ctx context.Context, c
 
 	scores := make([]entity.ScoreEntityModel, 0)
 
-	for i := 0; i < rowsACS; i++ {
+	for i := 0; i < len(matrix); i++ {
 		scores = append(scores, entity.ScoreEntityModel{
 			ScoreEntity: entity.ScoreEntity{
-				TimbulanSampah:        matrix[i][0],
-				JarakTpa:              matrix[i][1],
-				JarakPemukiman:        matrix[i][2],
-				JarakSungai:           matrix[i][3],
-				PartisipasiMasyarakat: matrix[i][4],
-				CakupanRumah:          matrix[i][5],
-				Aksesibilitas:         matrix[i][6],
+				TimbulanSampah:        constant.RoundFloat(matrix[i][0], 3),
+				JarakTpa:              constant.RoundFloat(matrix[i][1], 3),
+				JarakPemukiman:        constant.RoundFloat(matrix[i][2], 3),
+				JarakSungai:           constant.RoundFloat(matrix[i][3], 3),
+				PartisipasiMasyarakat: constant.RoundFloat(matrix[i][4], 3),
+				CakupanRumah:          constant.RoundFloat(matrix[i][5], 3),
+				Aksesibilitas:         constant.RoundFloat(matrix[i][6], 3),
 			},
 			Entity:        abstraction.Entity{ID: uuid.NewString()},
 			CollectionID:  alternatives[i].CollectionID,
@@ -314,7 +325,7 @@ func (s *service) CalculateFinalScoreByCollectionID(ctx context.Context, collect
 		finalScores = append(finalScores, entity.FinalScoreEntityModel{
 			Entity: abstraction.Entity{ID: uuid.NewString()},
 			FinalScoreEntity: entity.FinalScoreEntity{
-				FinalScore: alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas,
+				FinalScore: (alternativeScores[i].TimbulanSampah + alternativeScores[i].JarakTpa + alternativeScores[i].JarakPemukiman + alternativeScores[i].JarakSungai + alternativeScores[i].PartisipasiMasyarakat + alternativeScores[i].CakupanRumah + alternativeScores[i].Aksesibilitas) * 100,
 				Rank:       0,
 			},
 			AlternativeID: alternativeScores[i].AlternativeID,

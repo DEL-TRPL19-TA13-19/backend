@@ -37,6 +37,7 @@
 .env.development
 .env.prod
 .env.production
+./asset
 
 application
 build
